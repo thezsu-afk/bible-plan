@@ -360,7 +360,7 @@ textarea{font:inherit;width:100%;padding:11px;border-radius:10px;border:1px soli
         <div class="note" id="mnlabel" style="margin-bottom:5px">오늘의 짧은 묵상 (선택)</div>
         <textarea id="mnote" rows="2" maxlength="300" placeholder="오늘 받은 은혜나 감사 한 줄"></textarea>
       </div>
-      <div class="pv" id="mpv"></div><div class="bt"><button class="plain" id="mcancel">취소</button><button id="mdone">확인</button></div></div>
+      <div class="pr" style="align-items:center;gap:10px"><div class="pv" id="mpv"></div><button class="plain small hide" id="mclear" style="white-space:nowrap">선택 모두 해제</button></div><div class="bt"><button class="plain" id="mcancel">취소</button><button id="mdone">확인</button></div></div>
   </div>
 </div>
 <div id="cel" class="mback hide" style="align-items:center">
@@ -984,6 +984,7 @@ function renderModal(top){
   $("mdone").disabled=false;
   $("mdone").textContent=sel.size?("확인 ("+sel.size+"장)"):"확인";
   $("mpv").textContent=sel.size?fmt([...sel])+" · 총 "+sel.size+"장":"읽은 말씀을 고르고 확인을 눌러주세요.";
+  $("mclear").classList.toggle("hide",!sel.size);
   const dnote=recDate!==t?" ("+recDate.slice(5).replace("-","/")+" 기록)":"";
   $("msearch").classList.toggle("hide",mbook>=0);
   if(mbook<0){
@@ -1237,6 +1238,7 @@ $("quick").onclick=()=>{if(!who){openIntro(0);return}openPick()};
 $("openpick").onclick=()=>{if(!who){openIntro(0);return}openPick()};
 $("mcancel").onclick=closePick;
 $("mx").onclick=closePick;
+$("mclear").onclick=()=>{sel.clear();rangeStart=-1;renderModal()};
 $("mdone").onclick=applyPick;
 $("mback").onclick=()=>{mbook=-1;rangeStart=-1;renderModal(true)};
 let composing=false;
