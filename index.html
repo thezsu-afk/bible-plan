@@ -136,14 +136,12 @@ input[type=search]{font:inherit;width:100%;padding:11px;border-radius:10px;borde
 @keyframes glowp{from{opacity:.72;transform:scale(.94)}to{opacity:1;transform:scale(1.06)}}
 .hero .sun{transform-box:fill-box;transform-origin:50% 50%;animation:sunp 7s ease-in-out infinite alternate}
 @keyframes sunp{from{opacity:.6}to{opacity:1}}
-.hero .rd{transform-box:fill-box;transform-origin:50% 100%;animation:nod 3.4s ease-in-out infinite alternate}
-@keyframes nod{from{transform:rotate(-3.4deg) translateY(.8px)}to{transform:rotate(3.2deg) translateY(-1px)}}
-.hero .bdy{transform-box:fill-box;transform-origin:50% 100%;animation:breathe 3.9s ease-in-out infinite alternate}
+.hero .rd{transform-box:fill-box;transform-origin:50% 100%;animation:nod 16s ease-in-out infinite}
+@keyframes nod{0%{transform:rotate(-3deg)}8%{transform:rotate(2.6deg)}16%{transform:rotate(-3deg)}24%{transform:rotate(2.6deg)}32%{transform:rotate(-3deg)}40%{transform:rotate(2.4deg)}48%{transform:rotate(-2deg)}58%,84%{transform:rotate(1.5deg)}92%{transform:rotate(-2.4deg)}100%{transform:rotate(-3deg)}}
+.hero .bdy{transform-box:fill-box;transform-origin:50% 100%;animation:breathe 4s ease-in-out infinite alternate}
 @keyframes breathe{from{transform:translateY(1px) rotate(-1deg) scaleY(.993)}to{transform:translateY(-1.2px) rotate(1.1deg) scaleY(1.012)}}
-.hero .arm{transform-box:fill-box;transform-origin:0% 0%;animation:armp 6.5s ease-in-out infinite}
-@keyframes armp{0%,70%,100%{transform:rotate(0) translateY(0)}35%{transform:rotate(2deg) translateY(-1px)}84%{transform:rotate(-9deg) translateY(1px)}}
-.hero .pg{transform-box:fill-box;transform-origin:0% 100%;animation:flip 6.5s ease-in-out infinite}
-@keyframes flip{0%,78%,100%{transform:skewX(0) scaleX(1)}84%{transform:skewX(-9deg) scaleX(.93)}90%{transform:skewX(3deg) scaleX(1.02)}}
+.hero .pg{transform-box:fill-box;transform-origin:0% 100%;animation:flip 16s ease-in-out infinite}
+@keyframes flip{0%,12%{transform:skewX(0) scaleX(1)}17%{transform:skewX(-10deg) scaleX(.92)}21%{transform:skewX(3deg) scaleX(1.02)}25%,34%{transform:skewX(0) scaleX(1)}39%{transform:skewX(-10deg) scaleX(.92)}43%{transform:skewX(3deg) scaleX(1.02)}47%,100%{transform:skewX(0) scaleX(1)}}
 .hero .pl{transform-box:fill-box;transform-origin:50% 100%;animation:leaf 6s ease-in-out infinite alternate}
 @keyframes leaf{from{transform:rotate(-3.5deg)}to{transform:rotate(3.5deg)}}
 .hero .ds{animation:dust 11s linear infinite;opacity:0}
@@ -205,6 +203,34 @@ textarea{font:inherit;width:100%;padding:11px;border-radius:10px;border:1px soli
 .celbox .sm{font-size:13px;color:var(--mut);margin:0 0 18px}
 .celbox button{width:100%}
 @media (prefers-reduced-motion:reduce){.celbox,.pc,.celav .ray{animation:none!important;opacity:1!important}}
+.slp{transform-box:fill-box;transform-origin:50% 100%;animation:slpb 3.4s ease-in-out infinite alternate}
+@keyframes slpb{from{transform:translateY(0) rotate(-1deg)}to{transform:translateY(-1.2px) rotate(1deg)}}
+.zz{animation:zzf 2.8s ease-in-out infinite}
+.zz.z2{animation-delay:-.9s}.zz.z3{animation-delay:-1.8s}
+@keyframes zzf{0%{opacity:0;transform:translate(0,0) scale(.7)}25%{opacity:.95}100%{opacity:0;transform:translate(6px,-16px) scale(1.15)}}
+@media (prefers-reduced-motion:reduce){.slp,.zz{animation:none!important}}
+.hero.day .scrim{background:linear-gradient(105deg,rgba(26,18,12,.74) 0%,rgba(26,18,12,.42) 42%,rgba(26,18,12,.02) 72%)}
+.hero .pray.ey{animation:prayeye 16s ease-in-out infinite}
+@keyframes prayeye{0%,54%{opacity:0}64%,84%{opacity:1}90%,100%{opacity:0}}
+.hero .read.ey{animation:readeye 16s ease-in-out infinite}
+@keyframes readeye{0%,54%{opacity:1}64%,84%{opacity:0}90%,100%{opacity:1}}
+.hero .armA{transform-box:fill-box;transform-origin:0% 0%;animation:armA 16s cubic-bezier(.45,0,.25,1) infinite}
+@keyframes armA{0%,10%{transform:rotate(0)}16%{transform:rotate(-8deg)}22%{transform:rotate(0)}30%{transform:rotate(2deg)}38%{transform:rotate(-8deg)}44%,50%{transform:rotate(0)}60%{transform:rotate(-80deg)}68%,82%{transform:rotate(-113deg)}90%{transform:rotate(-50deg)}96%,100%{transform:rotate(0)}}
+.hero .armB{transform-box:fill-box;transform-origin:0% 0%;animation:armB 16s cubic-bezier(.45,0,.25,1) infinite}
+@keyframes armB{0%,50%{transform:rotate(0)}60%{transform:rotate(-66deg)}68%,82%{transform:rotate(-95deg)}90%{transform:rotate(-40deg)}96%,100%{transform:rotate(0)}}
+.hero .armC{transform-box:fill-box;transform-origin:0% 0%;animation:armC 16s cubic-bezier(.45,0,.25,1) infinite}
+@keyframes armC{0%,50%{transform:rotate(0)}60%{transform:rotate(-30deg)}68%,82%{transform:rotate(-44deg)}90%{transform:rotate(-18deg)}96%,100%{transform:rotate(0)}}
+.hero .armD{transform-box:fill-box;transform-origin:0% 0%;animation:armD 16s cubic-bezier(.45,0,.25,1) infinite}
+@keyframes armD{0%,12%{transform:rotate(0)}18%{transform:rotate(-5deg)}24%,50%{transform:rotate(0)}60%{transform:rotate(-26deg)}68%,82%{transform:rotate(-38deg)}90%{transform:rotate(-15deg)}96%,100%{transform:rotate(0)}}
+.hero .bookL{transform-box:fill-box;transform-origin:50% 100%;animation:bookL 16s cubic-bezier(.45,0,.25,1) infinite}
+@keyframes bookL{0%,50%{transform:translateY(0) rotate(0)}66%,82%{transform:translateY(9px) rotate(-5deg)}94%,100%{transform:translateY(0) rotate(0)}}
+.hero .hands{transform-box:fill-box;transform-origin:50% 50%;animation:handsc 16s cubic-bezier(.45,0,.25,1) infinite}
+@keyframes handsc{0%,58%{opacity:0;transform:scale(.5)}70%,82%{opacity:1;transform:scale(1)}90%,100%{opacity:0;transform:scale(.6)}}
+.hero .bow{transform-box:fill-box;transform-origin:50% 100%;animation:bowc 16s cubic-bezier(.45,0,.25,1) infinite}
+@keyframes bowc{0%,50%{transform:rotate(0) translateY(0)}60%{transform:rotate(4.5deg) translateY(1px)}68%,82%{transform:rotate(7.5deg) translateY(2px)}92%,100%{transform:rotate(0) translateY(0)}}
+.hero .halo{animation:haloc 16s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 50%}
+@keyframes haloc{0%,62%{opacity:0;transform:scale(.75)}72%,80%{opacity:.8;transform:scale(1.05)}88%,100%{opacity:0;transform:scale(1.2)}}
+@media (prefers-reduced-motion:reduce){.hero .pray{opacity:0}.hero .read{opacity:1}}
 </style>
 </head>
 <body>
@@ -305,6 +331,7 @@ textarea{font:inherit;width:100%;padding:11px;border-radius:10px;border:1px soli
 <div id="modal" class="mback hide">
   <div class="mbox">
     <div class="mhead"><button class="plain small hide" id="mback">‹ 책 목록</button><b id="mtitle"></b><span class="note" id="msel"></span><button class="plain small" id="mx" aria-label="닫기">✕</button></div>
+    <div id="msearch" class="hide" style="padding:12px 16px 0"><input type="search" id="mq" placeholder="책 이름 검색 (예: 시편, 요한)"></div>
     <div class="mbody" id="mbody"></div>
     <div class="mfoot">
       <div id="mnotebox" style="margin-bottom:10px">
@@ -318,8 +345,8 @@ textarea{font:inherit;width:100%;padding:11px;border-radius:10px;border:1px soli
   <canvas id="celc"></canvas>
   <div class="celbox">
     <div class="celav"><div class="ray"></div><div class="face" id="celface"></div><div id="celarm"></div></div>
-    <h3>오늘 묵상도 완료하셨네요!<br>당신은 승리하셨습니다.</h3>
-    <p class="sm">생명의 말씀으로 우리는 10+ 무장되었습니다.</p>
+    <h3 id="celttl"></h3>
+    <p class="sm" id="celsub"></p>
     <button id="celok">아멘</button>
   </div>
 </div>
@@ -397,8 +424,8 @@ function runSVG(i,c){
 }
 
 const FULL={"지수":"김지수","현주":"나현주"};
-function heroSVG(i,shirt,v){
-  const a=AV[((i%10)+10)%10],h=a.h,sk=SKIN[a.s];
+function heroSVG(i,shirt,v,night){
+  const a=AV[((i%10)+10)%10],h=a.h,sk=SKIN[a.s],skd="#e3bfa5";
   const spine=(x,w,hh,y,c)=>'<rect x="'+x+'" y="'+(y-hh)+'" width="'+w+'" height="'+hh+'" rx="1.5" fill="'+c+'"/>';
   const BK=["#c0603f","#6f8f6a","#d7a04a","#8a6fa8","#4f7fa3","#b4524f","#7d9e8b","#c98a5a"];
   let s1="",s2="",x=20;
@@ -418,18 +445,21 @@ function heroSVG(i,shirt,v){
   };
   const head=(cx,cy)=>hback(cx,cy)+'<g class="rd"><circle cx="'+cx+'" cy="'+cy+'" r="17" fill="'+sk+'"/>'
     +'<path d="M'+(cx-17)+' '+(cy+2)+'c-3-18 7-26 17-26s18 8 17 24c-5-9-11-13-18-13s-13 5-16 15z" fill="'+h+'"/>'
-    +'<circle cx="'+(cx+10)+'" cy="'+(cy+2)+'" r="1.9" fill="#2b2a27"/><circle cx="'+(cx+4)+'" cy="'+(cy+1)+'" r="1.9" fill="#2b2a27"/>'
+    +'<g class="read ey"><circle cx="'+(cx+10)+'" cy="'+(cy+2)+'" r="1.9" fill="#2b2a27"/><circle cx="'+(cx+4)+'" cy="'+(cy+1)+'" r="1.9" fill="#2b2a27"/></g>'
+    +'<g class="pray ey"><path d="M'+(cx+7)+' '+(cy+2)+'q3 2.6 6 0M'+(cx+1)+' '+(cy+1)+'q2.6 2.4 5 0" stroke="#2b2a27" stroke-width="1.5" fill="none" stroke-linecap="round"/></g>'
     +'<circle cx="'+(cx+13)+'" cy="'+(cy+8)+'" r="2.8" fill="#ff9aa8" opacity=".45"/>'
     +'<path d="M'+(cx+7)+' '+(cy+10)+'q3.5 2.5 6 0" stroke="#b05a52" stroke-width="1.3" fill="none" stroke-linecap="round"/></g>';
-  const room='<rect width="400" height="200" fill="url(#wl)"/><rect y="168" width="400" height="32" fill="#3b2a1f"/>'
-    +'<rect x="12" y="24" width="112" height="146" rx="4" fill="#5a4030"/><rect x="16" y="28" width="104" height="138" fill="#3f2d21"/>'
+  const FLR=night?"#3b2a1f":"#8a6647",SHF=night?"#5a4030":"#8a6446",SHI=night?"#3f2d21":"#5e4430",SHL=night?"#6b4c37":"#9b7351",FRM=night?"#2e2117":"#5b4330",CRT=night?"#8a5c46":"#b07f5e";
+  const room='<rect width="400" height="200" fill="url(#wl)"/><rect y="168" width="400" height="32" fill="'+FLR+'"/>'
+    +'<rect x="12" y="24" width="112" height="146" rx="4" fill="'+SHF+'"/><rect x="16" y="28" width="104" height="138" fill="'+SHI+'"/>'
     +s1+s2
-    +'<rect x="16" y="74" width="104" height="5" fill="#6b4c37"/><rect x="16" y="116" width="104" height="5" fill="#6b4c37"/><rect x="16" y="161" width="104" height="5" fill="#6b4c37"/>'
+    +'<rect x="16" y="74" width="104" height="5" fill="'+SHL+'"/><rect x="16" y="116" width="104" height="5" fill="'+SHL+'"/><rect x="16" y="161" width="104" height="5" fill="'+SHL+'"/>'
     +'<rect x="92" y="140" width="22" height="21" rx="2" fill="#2f6b4f"/><g class="pl"><path d="M103 140c-7-3-9-10-7-15c5 1 8 7 7 15z" fill="#6aa87f"/><path d="M103 140c7-4 8-12 6-16c-6 2-8 8-6 16z" fill="#5c9a72"/></g>'
-    +'<rect x="246" y="22" width="104" height="80" rx="4" fill="#2e2117"/><rect x="250" y="26" width="96" height="72" fill="url(#win)"/>'
-    +'<rect x="296" y="26" width="4" height="72" fill="#2e2117"/><rect x="250" y="58" width="96" height="4" fill="#2e2117"/>'
-    +'<circle class="sun" cx="276" cy="46" r="9" fill="#fff2cf" opacity=".9"/>'
-    +'<path d="M236 18h16v92h-16z" fill="#8a5c46" opacity=".8"/><path d="M348 18h18v92h-18z" fill="#8a5c46" opacity=".8"/>';
+    +'<rect x="246" y="22" width="104" height="80" rx="4" fill="'+FRM+'"/><rect x="250" y="26" width="96" height="72" fill="url(#win)"/>'
+    +(night?'':'<g fill="#ffffff" opacity=".75"><ellipse cx="312" cy="40" rx="14" ry="7"/><ellipse cx="324" cy="44" rx="10" ry="5"/><ellipse cx="266" cy="78" rx="12" ry="5"/></g>')
+    +'<rect x="296" y="26" width="4" height="72" fill="'+FRM+'"/><rect x="250" y="58" width="96" height="4" fill="'+FRM+'"/>'
+    +'<circle class="sun" cx="276" cy="46" r="'+(night?9:12)+'" fill="'+(night?"#fff2cf":"#fff6c0")+'" opacity=".92"/>'
+    +'<path d="M236 18h16v92h-16z" fill="'+CRT+'" opacity=".85"/><path d="M348 18h18v92h-18z" fill="'+CRT+'" opacity=".85"/>';
   const dust='<circle class="ds" cx="318" cy="146" r="1.6" fill="#ffe9bf"/><circle class="ds ds2" cx="332" cy="152" r="1.2" fill="#ffe9bf"/><circle class="ds ds3" cx="306" cy="150" r="1.4" fill="#ffe9bf"/>';
   let scene;
   if(v){
@@ -438,39 +468,71 @@ function heroSVG(i,shirt,v){
       +'<ellipse cx="282" cy="176" rx="96" ry="9" fill="#2b1d14" opacity=".55"/>'
       +'<rect x="318" y="140" width="56" height="7" rx="3" fill="#8a5c3c"/><rect x="326" y="147" width="6" height="24" fill="#6d472e"/><rect x="360" y="147" width="6" height="24" fill="#6d472e"/>'
       +'<g transform="translate(14,10)"><circle class="glow" cx="330" cy="110" r="52" fill="url(#lamp)"/><rect x="327" y="108" width="4" height="32" fill="#352418"/><path d="M312 108h36l-8-22h-20z" fill="#e8ad5e"/></g>'
+      +'<g transform="translate(322,114) scale(1.1)"><rect x="-2" y="20" width="16" height="4" rx="1.5" fill="#6d472e"/><rect x="4" y="-5" width="4" height="26" rx="1" fill="#c8964a"/><rect x="-1" y="3" width="14" height="4" rx="1" fill="#c8964a"/></g>'
       +'<path d="M332 150h14l-2 14h-10z" fill="#efe3cf"/><path d="M346 153q7 3 0 7" fill="none" stroke="#efe3cf" stroke-width="2.4"/>'
       +'<rect x="208" y="78" width="82" height="92" rx="18" fill="#7c4f39"/>'
       +'<rect x="194" y="124" width="22" height="46" rx="11" fill="#8d5c43"/><rect x="284" y="124" width="22" height="46" rx="11" fill="#8d5c43"/>'
       +'<rect x="206" y="128" width="86" height="42" rx="12" fill="#95644a"/>'
-      +'<g class="bdy"><path d="M226 158c-5-22 0-38 14-42c14-4 26 6 27 22l2 20z" fill="'+shirt+'"/>'
-      +head(246,96)+'</g>'
+      +'<g class="bow"><circle class="halo" cx="246" cy="96" r="30" fill="url(#hl)"/><g class="bdy"><path d="M226 158c-5-22 0-38 14-42c14-4 26 6 27 22l2 20z" fill="'+shirt+'"/>'
+      +head(246,96)+'</g></g>'
       +'<path d="M214 160c10-10 54-12 70-2c2 6-2 12-10 12h-52c-7 0-10-5-8-10z" fill="#b4705a"/>'
-      +'<path class="arm" d="M234 134c6 6 12 10 20 12" fill="none" stroke="'+sk+'" stroke-width="7" stroke-linecap="round"/>'
-      +'<g transform="rotate(-10 268 138)"><path d="M248 142l22-10 22 10-22 7z" fill="#f6efe2"/><path d="M248 142l22 7v-9l-22-8z" fill="#e7dcc8"/>'
+      +'<g class="armC"><path d="M232 130c5 5 11 9 16 12" fill="none" stroke="'+skd+'" stroke-width="6.6" stroke-linecap="round"/><circle cx="248" cy="142" r="4" fill="'+skd+'"/></g>'
+      +'<g class="bookL" transform="rotate(-10 268 138)"><path d="M248 142l22-10 22 10-22 7z" fill="#f6efe2"/><path d="M248 142l22 7v-9l-22-8z" fill="#e7dcc8"/>'
       +'<path class="pg" d="M292 142l-22 7v-9l22-8z" fill="#fffaf0"/>'
       +'<path d="M248 142l22-10 22 10 1 3-23 7-23-7z" fill="none" stroke="#8a6b4a" stroke-width="1.5"/><path d="M270 140v9" stroke="#c7b79c" stroke-width="1.3"/></g>'
-      +'<path d="M292 136c-6 2-12 4-16 8" fill="none" stroke="'+sk+'" stroke-width="6.4" stroke-linecap="round"/>'
+      +'<g class="armD"><path d="M238 132c6 5 12 9 18 12" fill="none" stroke="'+sk+'" stroke-width="7" stroke-linecap="round"/><circle cx="256" cy="144" r="4.2" fill="'+sk+'"/></g>'
+      +'<ellipse class="hands" cx="256" cy="127" rx="6" ry="7.5" fill="'+sk+'"/>'
       +dust+'</g>';
   }else{
     // 지수 버전: 책상에서 성경 읽기
     scene='<rect x="178" y="130" width="214" height="10" rx="3" fill="#8a5c3c"/><rect x="196" y="140" width="8" height="30" fill="#6d472e"/><rect x="366" y="140" width="8" height="30" fill="#6d472e"/>'
       +'<g transform="translate(14,-22)"><circle class="glow" cx="330" cy="120" r="56" fill="url(#lamp)"/><rect x="327" y="118" width="4" height="32" fill="#352418"/><path d="M312 118h36l-8-22h-20z" fill="#e8ad5e"/><rect x="318" y="148" width="22" height="4" rx="2" fill="#352418"/></g>'
-      +'<rect x="218" y="78" width="14" height="82" rx="6" fill="#6d472e"/><g transform="translate(26,-22)">'
-      +'<g class="bdy"><path d="M214 150c-6-18-3-34 10-40c12-5 24 2 27 16l3 24z" fill="'+shirt+'"/>'
+      +'<rect x="218" y="78" width="14" height="82" rx="6" fill="#6d472e"/>'
+      +'<g transform="translate(292,106) scale(1.1)"><rect x="-2" y="20" width="16" height="4" rx="1.5" fill="#6d472e"/><rect x="4" y="-5" width="4" height="26" rx="1" fill="#c8964a"/><rect x="-1" y="3" width="14" height="4" rx="1" fill="#c8964a"/></g>'
+      +'<g transform="translate(26,-22)">'
+      +'<g class="bow"><circle class="halo" cx="234" cy="96" r="30" fill="url(#hl)"/><g class="bdy"><path d="M214 150c-6-18-3-34 10-40c12-5 24 2 27 16l3 24z" fill="'+shirt+'"/>'
       +'<path d="M248 134c6 2 10 6 12 12l-16 4z" fill="'+shirt+'"/>'
-      +head(234,96)+'</g>'
+      +head(234,96)+'</g></g>'
       +'<path d="M250 150l30-12 30 12-30 8z" fill="#f6efe2"/><path d="M250 150l30 8v-10l-30-10z" fill="#e7dcc8"/>'
       +'<path class="pg" d="M310 150l-30 8v-10l30-10z" fill="#fffaf0"/>'
       +'<path d="M280 148v10" stroke="#c7b79c" stroke-width="1.4"/><path d="M250 150l30-12 30 12 2 3-32 9-32-9z" fill="none" stroke="#8a6b4a" stroke-width="1.6"/>'
       +'<path d="M258 146l16-6M262 149l16-6M290 140l16 6M286 143l16 6" stroke="#cbbda4" stroke-width="1"/>'
-      +'<path class="arm" d="M246 134c8 0 16 4 20 12" fill="none" stroke="'+sk+'" stroke-width="7" stroke-linecap="round"/>'
+      +'<g class="armB"><path d="M233 133c5 3 9 6 13 11" fill="none" stroke="'+skd+'" stroke-width="6.4" stroke-linecap="round"/></g>'
+      +'<g class="armA"><path d="M246 134c8 0 16 4 20 12" fill="none" stroke="'+sk+'" stroke-width="7" stroke-linecap="round"/><circle cx="266" cy="146" r="4.2" fill="'+sk+'"/></g>'
+      +'<ellipse class="hands" cx="246" cy="113" rx="6" ry="7.5" fill="'+sk+'"/>'
       +dust+'</g>';
   }
   return '<svg class="bg" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">'
-  +'<defs><linearGradient id="wl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7d5c43"/><stop offset="1" stop-color="#553d2d"/></linearGradient>'
-  +'<radialGradient id="lamp" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffd79a" stop-opacity=".85"/><stop offset="1" stop-color="#ffd79a" stop-opacity="0"/></radialGradient>'
-  +'<linearGradient id="win" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffdca8"/><stop offset="1" stop-color="#f0b377"/></linearGradient></defs>'
+  +'<defs><linearGradient id="wl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+(night?"#7d5c43":"#d6b995")+'"/><stop offset="1" stop-color="'+(night?"#553d2d":"#b1906f")+'"/></linearGradient>'
+  +'<radialGradient id="lamp" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffd79a" stop-opacity="'+(night?".85":".4")+'"/><stop offset="1" stop-color="#ffd79a" stop-opacity="0"/></radialGradient>'
+  +'<radialGradient id="hl" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff0c2" stop-opacity=".95"/><stop offset="1" stop-color="#fff0c2" stop-opacity="0"/></radialGradient>'
+  +'<linearGradient id="win" x1="0" y1="0" x2="0" y2="1">'+(night?'<stop offset="0" stop-color="#2e4a74"/><stop offset="1" stop-color="#53708f"/>':'<stop offset="0" stop-color="#bfe3ff"/><stop offset="1" stop-color="#eaf6ff"/>')+'</linearGradient></defs>'
   +room+scene+'</svg>';
+}
+function sleepSVG(i,c){
+  const a=AV[((i%10)+10)%10],h=a.h,sk=SKIN[a.s],t=a.t,skd="#e3bfa5";
+  let back="";
+  if(t==="long"||t==="wave"||t==="half")back='<path d="M14 26c-7 5-8 16-4 24c4-10 5-17 8-20z" fill="'+h+'"/>';
+  else if(t==="pony")back='<path d="M13 25c-7 2-9 10-7 17c4-7 8-11 13-13z" fill="'+h+'"/><circle cx="13" cy="25" r="2.6" fill="'+h+'"/>';
+  else if(t==="bun")back='<circle cx="13" cy="20" r="4.2" fill="'+h+'"/>';
+  else if(t==="twin")back='<circle cx="11" cy="30" r="4.2" fill="'+h+'"/><circle cx="12" cy="37" r="3.6" fill="'+h+'"/>';
+  else if(t==="braid")back='<g fill="'+h+'"><circle cx="11" cy="31" r="3.2"/><circle cx="10" cy="37" r="3"/><circle cx="9" cy="42" r="2.6"/></g>';
+  const cap=(t==="curly")
+    ? '<g fill="'+h+'"><circle cx="15" cy="26" r="4"/><circle cx="20" cy="22" r="4.4"/><circle cx="25" cy="24" r="4"/></g>'
+    : '<path d="M13 29C12 21 18 19 22.5 20.2C26.5 21.2 27.5 25 27 27C24 24.2 19.5 24.3 16.5 27.5C15 29 14 30.5 13 29Z" fill="'+h+'"/>';
+  return '<svg class="rn" viewBox="0 0 40 60" width="44" height="66"><ellipse cx="19" cy="56" rx="11" ry="2" fill="rgba(0,0,0,.2)"/>'
+  +'<g class="slp">'
+  +'<path d="M14 50c6-2 12-2 16 1" fill="none" stroke="#3d4a63" stroke-width="6" stroke-linecap="round"/>'
+  +'<path d="M30 51c3 0 5 1 6 2" fill="none" stroke="'+sk+'" stroke-width="3.4" stroke-linecap="round"/>'
+  +'<path d="M16 54h7" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>'
+  +'<path d="M18 36c-2 6-3 10-3 14h12c1-6-1-11-4-14z" fill="'+c+'"/>'
+  +'<path d="M24 42c3 2 5 5 6 8" fill="none" stroke="'+skd+'" stroke-width="3.2" stroke-linecap="round"/>'
+  +back+'<circle cx="21" cy="30" r="7" fill="'+sk+'"/>'+cap
+  +'<path d="M24 30.5q1.6 1.6 3.2 0" stroke="#2b2a27" stroke-width="1" fill="none" stroke-linecap="round"/>'
+  +'<circle cx="24" cy="34" r="1.6" fill="#ff9aa8" opacity=".5"/>'
+  +'<path d="M25.5 33.4q1.4 .9 2.6 0" stroke="#c0555f" stroke-width=".8" fill="none" stroke-linecap="round"/></g>'
+  +'<g fill="#9b968b" font-size="7" font-weight="700"><text class="zz" x="29" y="24">z</text><text class="zz z2" x="31" y="18">z</text><text class="zz z3" x="33" y="12">z</text></g>'
+  +'</svg>';
 }
 const TINT={"지수":"#f7c6d0","현주":"#cfe0f5"};
 const DEFAV={"지수":0,"현주":1};
@@ -494,7 +556,7 @@ function fmt(list){
     const b=CH[a[i]][0],s=CH[a[i]][1],e=CH[a[j]][1];p.push(b+" "+(s===e?s+"장":s+"–"+e+"장"));i=j+1}
   return p.join(", ");
 }
-const EMO=["🙏","❤️","🙌","✨"];
+const EMO=["❤️","🙏","🙌","✨"];
 function parseReacts(s){const o={};(s||"").split(",").forEach(e=>{const m=/^r\|([^|]+)\|(\d{4}-\d\d-\d\d)\|(.*)$/.exec(e);if(m){try{o[decodeURIComponent(m[1])+"|"+m[2]]=decodeURIComponent(m[3])}catch(x){}}});return o}
 function dumpReacts(o){return Object.keys(o).filter(k=>o[k]).slice(-400).map(k=>{const p=k.split("|");return "r|"+encodeURIComponent(p[0])+"|"+p[1]+"|"+encodeURIComponent(o[k])})}
 function parseNotes(s){const o={};(s||"").split(",").forEach(e=>{const m=/^n\|(\d{4}-\d\d-\d\d)\|(.*)$/.exec(e);if(m){try{o[m[1]]=decodeURIComponent(m[2])}catch(x){}}});return o}
@@ -520,7 +582,7 @@ const chBtns=[],bookEls=[];
 
 // ---------- 기록 변경 ----------
 let undoSnap=null,toastTimer=null;
-const snap=()=>({ch,lg:JSON.parse(JSON.stringify(lg))});
+const snap=()=>({ch,lg:JSON.parse(JSON.stringify(lg)),notes:Object.assign({},notes),reacts:Object.assign({},reacts)});
 function toast(msg,undoable){
   $("tmsg").textContent=msg;$("tundo").classList.toggle("hide",!undoable);
   $("toast").classList.remove("hide");clearTimeout(toastTimer);
@@ -528,7 +590,8 @@ function toast(msg,undoable){
 }
 $("tundo").onclick=()=>{
   if(!undoSnap)return;
-  ch=undoSnap.ch;lg=undoSnap.lg;undoSnap=null;
+  ch=undoSnap.ch;lg=undoSnap.lg;if(undoSnap.notes)notes=undoSnap.notes;if(undoSnap.reacts)reacts=undoSnap.reacts;undoSnap=null;
+  noteEditing=false;
   $("toast").classList.add("hide");others[who]=mine();render();save();
 };
 function addRead(list,date){
@@ -574,11 +637,13 @@ function renderHead(){
   const d=new Date();
   $("dateline").textContent=(d.getMonth()+1)+"월 "+d.getDate()+"일 "+WD[d.getDay()]+"요일";
   $("greet").textContent=who?("안녕하세요 "+(FULL[who]||who)+"님"):"안녕하세요";
-  const sig=(who||"-")+"|"+av;
+  const hr=d.getHours(),night=hr<6||hr>=18;
+  $("hero").classList.toggle("day",!night);
+  const sig=(who||"-")+"|"+av+"|"+(night?"n":"d");
   if(sig!==heroSig){
     heroSig=sig;
     const old=$("hero").querySelector("svg.bg");if(old)old.remove();
-    $("hero").insertAdjacentHTML("afterbegin",heroSVG(who?av:0,who?COL[who]:"#8a6fa8",who==="현주"?1:0));
+    $("hero").insertAdjacentHTML("afterbegin",heroSVG(who?av:0,who?COL[who]:"#8a6fa8",who==="현주"?1:0,night));
   }
 }
 function renderNext(){
@@ -602,7 +667,7 @@ function buildLane(n){
   const lane=document.createElement("div");lane.className="lane";
   lane.innerHTML='<div class="lh"><span><b></b><span class="t hide">오늘 읽음</span></span><span class="note rt"></span></div><div class="trk"><div class="ln"></div><div class="fl"></div><i class="dot" style="left:0%"></i><i class="dot" style="left:20%"></i><i class="dot" style="left:40%"></i><i class="dot" style="left:60%"></i><i class="dot" style="left:80%"></i><i class="dot" style="left:100%"></i>'+CROSS+'<div class="av"></div></div><div class="dys"></div><div class="note sm" style="margin-top:4px"></div>';
   $("team").appendChild(lane);
-  return LANE[n]={lane,avi:-1,dots:lane.querySelectorAll(".dot"),b:lane.querySelector("b"),t:lane.querySelector(".t"),rt:lane.querySelector(".rt"),fl:lane.querySelector(".fl"),av:lane.querySelector(".av"),dys:lane.querySelector(".dys"),sm:lane.querySelector(".sm")};
+  return LANE[n]={lane,avi:-1,slp:null,dots:lane.querySelectorAll(".dot"),b:lane.querySelector("b"),t:lane.querySelector(".t"),rt:lane.querySelector(".rt"),fl:lane.querySelector(".fl"),av:lane.querySelector(".av"),dys:lane.querySelector(".dys"),sm:lane.querySelector(".sm")};
 }
 function renderTeam(t){
   const wd=weekDays(),LB=["월","화","수","목","금","토"];
@@ -611,7 +676,13 @@ function renderTeam(t){
     const o=others[n],l=(o&&o.lg)||{};
     let days=0,chs=0,li=-1;
     wd.forEach((k,i)=>{if(l[k]){days++;chs+=l[k].length;li=i}});
-    const e=LANE[n]||buildLane(n);const ai=avOf(n);if(e.avi!==ai){e.avi=ai;e.av.innerHTML=runSVG(ai,COL[n])}
+    const e=LANE[n]||buildLane(n);const ai=avOf(n);
+    const all=(o&&o.lg)?Object.keys(o.lg).filter(d=>o.lg[d]&&o.lg[d].length).sort():[];
+    const last=all.length?all[all.length-1]:null;
+    const gap=last?Math.round((new Date(t)-new Date(last))/86400000):999;
+    const asleep=gap>=2;
+    if(e.avi!==ai||e.slp!==asleep){e.avi=ai;e.slp=asleep;e.av.innerHTML=asleep?sleepSVG(ai,COL[n]):runSVG(ai,COL[n])}
+    e.av.title=asleep?(last?(gap+"일째 기록이 없어요"):"아직 기록이 없어요"):"";
     e.b.textContent=n+(n===who?" (나)":"");e.b.style.color=COL[n];
     e.t.classList.toggle("hide",!l[t]);
     e.rt.textContent=days+"/6일 · 이번 주 "+chs+"장"+(days===6?" 🏆 완주!":"");
@@ -626,7 +697,7 @@ function renderTeam(t){
     wd.forEach((k,i)=>{const sp=document.createElement("span");const rd=!!l[k];
       sp.textContent=LB[i];sp.className=(rd?"rd ":"")+(k===t?"td ":"")+(!rd&&k<t?"mi":"");
       if(rd)sp.style.color=COL[n];sp.style.left=(i/5*100)+"%";e.dys.appendChild(sp)});
-    e.sm.textContent=o&&o.ch?"전체 "+pctTxt(count(o.ch))+" · "+pos(o.ch):"아직 접속 전";
+    e.sm.textContent=o&&o.ch?((asleep?(last?"💤 "+gap+"일째 쉬는 중 · ":"💤 아직 시작 전 · "):"")+"전체 "+pctTxt(count(o.ch))+" · "+pos(o.ch)):"아직 접속 전";
   });
   const tg=weekDays().filter(d=>NAMES.every(n=>others[n]&&others[n].lg&&others[n].lg[d])).length;
   $("verse").textContent="푯대를 향하여 그리스도 예수 안에서 하나님이 위에서 부르신 부름의 상을 위하여 달려가노라"+(tg?" · 이번 주 함께 읽은 날 "+tg+"일!":"");
@@ -744,6 +815,13 @@ function setReact(author,d,e){
   if(reacts[k]===e)delete reacts[k];else reacts[k]=e;
   others[who]=mine();renderTl();save();
 }
+function delNote(d){
+  if(!who||!notes[d])return;
+  const p=d.split("-").map(Number);
+  if(!confirm(p[1]+"월 "+p[2]+"일 묵상을 삭제할까요?"))return;
+  undoSnap=snap();delete notes[d];noteEditing=false;
+  others[who]=mine();render();save();toast("묵상을 삭제했어요",true);
+}
 function renderTl(){
   const box=$("tl");if(!box)return;
   const items=[];
@@ -773,9 +851,15 @@ function renderTl(){
     if(who&&it.n!==who){
       EMO.forEach(e=>{
         const bt=document.createElement("button");bt.textContent=e;
+        bt.setAttribute("aria-label",e+" 반응");
         if(reacts[reactKey(it.n,it.d)]===e)bt.className="on";
         bt.onclick=()=>setReact(it.n,it.d,e);rx.appendChild(bt);
       });
+    }
+    if(who&&it.n===who){
+      const dl=document.createElement("button");dl.textContent="삭제";
+      dl.style.cssText="color:var(--st);font-size:13px";
+      dl.onclick=()=>delNote(it.d);rx.appendChild(dl);
     }
     bd.append(hd,tx,rx);w.append(fc,bd);box.appendChild(w);
   });
@@ -810,6 +894,7 @@ function openPick(date){
   sel.clear();mbook=-1;rangeStart=-1;q="";
   const t0=todayStr(),p0=recDate.split("-").map(Number);
   $("mnote").value=notes[recDate]||"";
+  $("mq").value="";
   $("mnlabel").textContent=(recDate===t0?"오늘":p0[1]+"월 "+p0[2]+"일")+"의 짧은 묵상 (선택)";
   $("modal").classList.remove("hide");document.body.style.overflow="hidden";renderModal(true);
 }
@@ -827,11 +912,9 @@ function renderModal(top){
   $("mdone").textContent=sel.size?("확인 ("+sel.size+"장)"):"확인";
   $("mpv").textContent=sel.size?fmt([...sel])+" · 총 "+sel.size+"장":"읽은 말씀을 고르고 확인을 눌러주세요.";
   const dnote=recDate!==t?" ("+recDate.slice(5).replace("-","/")+" 기록)":"";
+  $("msearch").classList.toggle("hide",mbook>=0);
   if(mbook<0){
     $("mtitle").textContent="어떤 책을 읽었나요?"+dnote;$("mback").classList.add("hide");
-    const s=document.createElement("input");s.type="search";s.placeholder="책 이름 검색 (예: 시편, 요한)";s.value=q;
-    s.oninput=e=>{q=e.target.value.trim();renderModal()};
-    body.appendChild(s);
     const mk=(lab,idx)=>{
       if(!idx.length)return;
       const h=document.createElement("div");h.className="msec";h.textContent=lab;body.appendChild(h);
@@ -946,6 +1029,22 @@ async function pickWho(w,avi){
 }
 
 // ---------- 축하 ----------
+function trophySVG(){
+  const st='stroke="#9a7320" stroke-width="2" stroke-linejoin="round"';
+  return '<svg class="arm2" viewBox="0 0 150 150">'
+  +'<defs><linearGradient id="gd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffdf8a"/><stop offset="1" stop-color="#d9a52c"/></linearGradient></defs>'
+  +'<g class="pc p3"><path d="M44 126c-14-4-22-14-24-26" fill="none" stroke="#f2d79a" stroke-width="9" stroke-linecap="round"/></g>'
+  +'<g class="pc p4"><path d="M100 128c16-8 22-22 20-36" fill="none" stroke="#f2d79a" stroke-width="9" stroke-linecap="round"/></g>'
+  +'<g transform="translate(78,-14) scale(.58)"><g class="pc p1">'
+  +'<path d="M48 6h54v22c0 17-12 29-27 29S48 45 48 28z" fill="url(#gd)" '+st+'/>'
+  +'<path d="M48 12H36c0 14 5 20 14 22M102 12h12c0 14-5 20-14 22" fill="none" '+st+'/>'
+  +'<rect x="69" y="56" width="12" height="14" fill="url(#gd)" '+st+'/>'
+  +'<path d="M55 78c0-6 8-8 20-8s20 2 20 8z" fill="url(#gd)" '+st+'/>'
+  +'<rect x="50" y="78" width="50" height="9" rx="3" fill="url(#gd)" '+st+'/>'
+  +'<path d="M75 20v16M67 27h16" stroke="#fff6dc" stroke-width="5" stroke-linecap="round"/></g></g>'
+  +'<g class="pc p2"><text x="2" y="40" font-size="20">🎉</text><text x="2" y="124" font-size="16">✨</text></g>'
+  +'</svg>';
+}
 function armorSVG(){
   const st='stroke="#5d6975" stroke-width="2" stroke-linejoin="round"';
   return '<svg class="arm2" viewBox="0 0 150 150">'
@@ -967,7 +1066,7 @@ let celRaf=0;
 function confetti(){
   const cv=$("celc"),ctx=cv.getContext("2d"),dpr=Math.min(2,window.devicePixelRatio||1);
   const W=cv.width=innerWidth*dpr,Hh=cv.height=innerHeight*dpr;
-  const CLR=["#d9627a","#4a7fc1","#3f7d58","#e0b24a","#c0603f","#8a6fa8"];
+  const CLR=["#d9627a","#4a7fc1","#3f7d58","#e0b24a","#c0603f","#8a6fa8","#f0c419"];
   const ps=[];
   for(let i=0;i<140;i++)ps.push({x:W*(.2+Math.random()*.6),y:Hh*(.45+Math.random()*.1),
     vx:(Math.random()-.5)*11*dpr,vy:(-9-Math.random()*9)*dpr,w:(5+Math.random()*6)*dpr,h:(8+Math.random()*8)*dpr,
@@ -983,9 +1082,11 @@ function confetti(){
     else ctx.clearRect(0,0,W,Hh);
   })();
 }
-function openCel(){
+function openCel(win){
   $("celface").innerHTML=faceSVG(av,TINT[who]||"#eee");
-  $("celarm").innerHTML=armorSVG();
+  $("celarm").innerHTML=win?trophySVG():armorSVG();
+  $("celttl").innerHTML=win?"한 주 동안<br>말씀으로 사셨습니다":"오늘 묵상도 완료하셨네요!<br>당신은 승리하셨습니다.";
+  $("celsub").textContent=win?"월요일부터 토요일까지 6일, 완주하셨어요. 🏆":"생명의 말씀으로 우리는 10+ 무장되었습니다.";
   $("cel").classList.remove("hide");document.body.style.overflow="hidden";
   try{confetti()}catch(e){}
 }
@@ -996,9 +1097,16 @@ function maybeCelebrate(){
   if(!who)return;
   const t=todayStr();
   if(!((lg[t]&&lg[t].length)||notes[t]))return;
+  const wd=weekDays(),full=wd.every(d=>lg[d]&&lg[d].length);
+  if(full){
+    const wk="bible_win_"+who+"_"+wd[0];
+    let shown=false;try{shown=!!localStorage.getItem(wk);if(!shown)localStorage.setItem(wk,"1")}catch(e){}
+    try{localStorage.setItem("bible_cel_"+who+"_"+t,"1")}catch(e){}
+    if(!shown){setTimeout(()=>openCel(true),220);return}
+  }
   const k="bible_cel_"+who+"_"+t;
   try{if(localStorage.getItem(k))return;localStorage.setItem(k,"1")}catch(e){}
-  setTimeout(openCel,220);
+  setTimeout(()=>openCel(false),220);
 }
 
 // ---------- 첫 실행 안내 ----------
@@ -1059,6 +1167,10 @@ $("mcancel").onclick=closePick;
 $("mx").onclick=closePick;
 $("mdone").onclick=applyPick;
 $("mback").onclick=()=>{mbook=-1;rangeStart=-1;renderModal(true)};
+let composing=false;
+$("mq").addEventListener("compositionstart",()=>{composing=true});
+$("mq").addEventListener("compositionend",()=>{composing=false;q=$("mq").value.trim();renderModal()});
+$("mq").addEventListener("input",()=>{if(composing)return;q=$("mq").value.trim();renderModal()});
 $("modal").onclick=e=>{if(e.target.id==="modal")closePick()};
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closePick()});
 
@@ -1095,7 +1207,7 @@ $("nsave").onclick=()=>{
   if(v)notes[d]=v;else delete notes[d];
   noteEditing=false;others[who]=mine();renderCal(todayStr());save();toast(v?"묵상을 저장했어요":"묵상을 지웠어요",false);if(v)maybeCelebrate();
 };
-$("ndel").onclick=()=>{if(!who)return;delete notes[selDate];$("noteinput").value="";noteEditing=false;others[who]=mine();renderCal(todayStr());save();toast("묵상을 지웠어요",false)};
+$("ndel").onclick=()=>{if(!who||!notes[selDate])return;$("noteinput").value="";delNote(selDate)};
 $("retry").onclick=()=>{setStatus("불러오는 중…");pull()};
 function tick(){
   const t=todayStr();
