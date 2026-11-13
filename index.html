@@ -697,8 +697,9 @@ function buildLane(n){
 function renderTeam(t){
   const wd=weekDays(),LB=["월","화","수","목","금","토"];
   const ti=wd.indexOf(t)<0?5:wd.indexOf(t);
+  const ord=who?[who].concat(NAMES.filter(n=>n!==who)):NAMES.slice();
   $("wk").textContent=" "+wd[0].slice(5).replace("-","/")+" ~ "+wd[5].slice(5).replace("-","/");
-  NAMES.forEach(n=>{
+  ord.forEach(n=>{
     const o=others[n],l=(o&&o.lg)||{};
     let days=0,chs=0,li=-1;
     wd.forEach((k,i)=>{if(l[k]){days++;chs+=l[k].length;li=i}});
@@ -740,6 +741,7 @@ function renderTeam(t){
     wd.forEach((k,i)=>{const sp=document.createElement("span");const rd=!!l[k];
       sp.textContent=LB[i];sp.className=(rd?"rd ":"")+(k===t?"td ":"")+(!rd&&k<t?"mi":"");
       if(rd)sp.style.color=COL[n];sp.style.left=(i/5*100)+"%";e.dys.appendChild(sp)});
+    $("team").appendChild(e.lane);
     e.sm.textContent=o&&o.ch?((asleep?(last?"💤 "+gap+"일째 쉬는 중 · ":"💤 아직 시작 전 · "):"")+"전체 "+pctTxt(count(o.ch))+" · "+pos(o.ch)):"아직 접속 전";
   });
   const tg=weekDays().filter(d=>NAMES.every(n=>others[n]&&others[n].lg&&others[n].lg[d])).length;
