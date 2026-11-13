@@ -232,13 +232,29 @@ textarea{font:inherit;width:100%;padding:11px;border-radius:10px;border:1px soli
 .hero .halo{animation:haloc 16s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 50%}
 @keyframes haloc{0%,62%{opacity:0;transform:scale(.75)}72%,80%{opacity:.8;transform:scale(1.05)}88%,100%{opacity:0;transform:scale(1.2)}}
 @media (prefers-reduced-motion:reduce){.hero .pray{opacity:0}.hero .read{opacity:1}}
-.mhint{position:absolute;bottom:34px;transform:translateX(-50%);background:var(--st);color:#fff;border:none;font-size:11px;font-weight:600;line-height:1.3;padding:6px 10px;border-radius:9px;white-space:nowrap;min-height:0;z-index:4;box-shadow:0 2px 6px rgba(0,0,0,.2);animation:hintp 2.2s ease-in-out infinite alternate}
-.mhint::after{content:"";position:absolute;left:50%;bottom:-5px;width:0;height:0;margin-left:-5px;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid var(--st)}
+.mhint{position:absolute;bottom:34px;left:0;background:var(--st);color:#fff;border:none;font-size:11px;font-weight:600;line-height:1.3;padding:6px 10px;border-radius:9px;white-space:nowrap;min-height:0;z-index:4;box-shadow:0 2px 6px rgba(0,0,0,.2);animation:hintp 2.2s ease-in-out infinite alternate}
+.mhint::after{content:"";position:absolute;left:var(--ax,50%);bottom:-5px;width:0;height:0;margin-left:-5px;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid var(--st)}
 @keyframes hintp{from{box-shadow:0 2px 6px rgba(0,0,0,.2)}to{box-shadow:0 2px 12px rgba(192,57,43,.55)}}
 @media (prefers-reduced-motion:reduce){.mhint{animation:none}}
+#splash{position:fixed;inset:0;z-index:90;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:linear-gradient(160deg,#7d5c43,#4a3528 65%,#36261b);color:#fff;animation:splashout .7s ease-in 1.5s forwards}
+#splash .ic{animation:spup .8s cubic-bezier(.2,1.3,.4,1) both}
+#splash h1{font-size:30px;margin:0;letter-spacing:.02em;animation:spup .8s cubic-bezier(.2,1.3,.4,1) .12s both;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+#splash p{margin:0;font-size:14px;color:#f0dfc6;animation:spup .8s cubic-bezier(.2,1.3,.4,1) .24s both}
+@keyframes spup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes splashout{to{opacity:0;visibility:hidden}}
+@media (prefers-reduced-motion:reduce){#splash,#splash *{animation-duration:.01s!important;animation-delay:1.2s!important}}
 </style>
 </head>
 <body>
+<div id="splash">
+  <svg class="ic" viewBox="0 0 80 96" width="72" height="86" aria-hidden="true">
+    <rect x="34" y="6" width="12" height="74" rx="4" fill="#e0b24a"/>
+    <rect x="16" y="24" width="48" height="12" rx="4" fill="#e0b24a"/>
+    <path d="M6 84q18-9 34-3q16-6 34 3v6q-18-8-34-2q-16-6-34 2z" fill="#f6efe2" opacity=".92"/>
+  </svg>
+  <h1>오늘도 말씀</h1>
+  <p>현주와 지수의 성경읽기</p>
+</div>
 <main>
   <section id="pg-home">
     <header class="hero" id="hero">
@@ -260,6 +276,7 @@ textarea{font:inherit;width:100%;padding:11px;border-radius:10px;border:1px soli
       <div class="cta">
         <button id="quick">읽음으로 기록</button>
         <button class="ghost" id="openpick">다른 말씀 고르기</button>
+        <button class="ghost hide" id="share">💬 카톡에 공유</button>
       </div>
     </div>
 
@@ -679,7 +696,9 @@ function renderNext(){
   q.textContent=doneToday?"오늘 묵상 완료 ✓":"오늘 말씀 체크";
   q.className=doneToday?"ghost":"";
   q.disabled=false;$("openpick").disabled=false;
-  $("openpick").textContent=doneToday?"수정하기":"다른 말씀 고르기";
+  $("openpick").textContent="다른 말씀 고르기";
+  $("openpick").classList.toggle("hide",doneToday);
+  $("share").classList.toggle("hide",!doneToday);
   const list=(lg[t]||[]).slice().sort((x,y)=>x-y);
   $("todaynote").textContent=!loaded?"":list.length?("오늘 "+list.length+"장 읽었어요 · "+fmt(list)):"오늘 읽은 말씀이 아직 없어요.";
 }
@@ -732,7 +751,16 @@ function renderTeam(t){
       if(mi>=0&&!off){
         const bb=document.createElement("button");bb.className="mhint";
         bb.textContent="놓친 기록이 있다면 선택해주세요";
-        bb.style.left=Math.min(Math.max(mi/5*100,26),74)+"%";
+        const dotEl=e.dots[mi];
+        requestAnimationFrame(()=>{
+          if(!bb.isConnected)return;
+          const trk=e.lane.querySelector(".trk"),tr=trk.getBoundingClientRect(),db=dotEl.getBoundingClientRect();
+          const bw=bb.offsetWidth,dotC=db.left+db.width/2-tr.left;
+          let lf=dotC-bw/2;
+          lf=Math.max(-20,Math.min(lf,tr.width-bw+20));
+          bb.style.left=lf+"px";
+          bb.style.setProperty("--ax",Math.max(10,Math.min(dotC-lf,bw-10))+"px");
+        });
         bb.onclick=ev=>{ev.stopPropagation();try{localStorage.setItem(hk,"1")}catch(x){}bb.remove();e.hint=null};
         e.lane.querySelector(".trk").appendChild(bb);e.hint=bb;
       }
@@ -988,15 +1016,12 @@ function renderModal(top){
     const bi=mbook,n=BOOKS[bi][1],a0=START[bi];
     $("mtitle").textContent=BOOKS[bi][0]+dnote;$("mback").classList.remove("hide");
     const bar=document.createElement("div");bar.style.cssText="display:flex;gap:8px;flex-wrap:wrap";
-    const rg=document.createElement("button");rg.className=(rangeOn?"ghost":"plain")+" small";
-    rg.textContent=rangeOn?(rangeStart<0?"범위 선택: 시작 장을 누르세요":"범위 선택: 끝 장을 누르세요"):"범위 선택";
-    rg.onclick=()=>{rangeOn=!rangeOn;rangeStart=-1;renderModal()};
     const un=[];for(let k=a0;k<a0+n;k++)if(ch[k]!=="1")un.push(k);
     const allSel=un.length>0&&un.every(k=>sel.has(k));
     const all=document.createElement("button");all.className="plain small";
     all.textContent=allSel?"이 책 선택 해제":"안 읽은 장 모두 선택";all.disabled=!un.length;
     all.onclick=()=>{un.forEach(k=>allSel?sel.delete(k):sel.add(k));renderModal()};
-    bar.append(rg,all);body.appendChild(bar);
+    bar.append(all);body.appendChild(bar);
     const g=document.createElement("div");g.className="grid";
     for(let i=0;i<n;i++){
       const k=a0+i,b=document.createElement("button");
@@ -1005,10 +1030,12 @@ function renderModal(top){
       b.setAttribute("aria-label",nm(k));b.setAttribute("aria-pressed",sel.has(k));
       if(ch[k]==="1")b.disabled=true;
       else b.onclick=()=>{
-        if(rangeOn){
-          if(rangeStart<0)rangeStart=k;
-          else{const a=Math.min(rangeStart,k),z=Math.max(rangeStart,k);for(let x=a;x<=z;x++)if(ch[x]!=="1")sel.add(x);rangeStart=-1}
-        }else sel.has(k)?sel.delete(k):sel.add(k);
+        if(sel.has(k)){sel.delete(k);rangeStart=k>a0?k-1:-1}
+        else if(rangeStart>=0&&rangeStart>=a0&&rangeStart<a0+n&&rangeStart!==k){
+          const x1=Math.min(rangeStart,k),x2=Math.max(rangeStart,k);
+          for(let x=x1;x<=x2;x++)if(ch[x]!=="1")sel.add(x);
+          rangeStart=k;
+        }else{sel.add(k);rangeStart=k}
         renderModal();
       };
       g.appendChild(b);
@@ -1018,7 +1045,7 @@ function renderModal(top){
       const nx=document.createElement("button");nx.className="plain small";nx.textContent="다음 책: "+BOOKS[bi+1][0]+" ›";
       nx.onclick=()=>{mbook=bi+1;rangeStart=-1;renderModal(true)};body.appendChild(nx);
     }
-    const nt=document.createElement("p");nt.className="note";nt.textContent="이미 기록한 장(✓)은 다시 고를 수 없어요. 지우려면 성경 전체 보기에서 그 장을 누르세요.";body.appendChild(nt);
+    const nt=document.createElement("p");nt.className="note";nt.textContent="1장을 누른 뒤 3장을 누르면 그 사이 장이 모두 선택돼요. 이미 기록한 장(✓)은 고를 수 없어요.";body.appendChild(nt);
   }
   body.scrollTop=st;
 }
@@ -1235,6 +1262,34 @@ $("cnext").onclick=()=>{vm++;if(vm>11){vm=0;vy++}renderCal(todayStr())};
 $("cadd").onclick=()=>openPick(selDate);
 function focusToday(){const t=todayStr();selDate=t;vy=+t.slice(0,4);vm=+t.slice(5,7)-1;renderCal(t)}
 $("ctoday").onclick=focusToday;
+function shareText(){
+  const t=todayStr(),wd=weekDays(),p=t.split("-").map(Number);
+  const WDN=["일","월","화","수","목","금","토"];
+  const dt=new Date(),line=[],td=lg[t]||[];
+  let days=0;wd.forEach(k=>{if(lg[k]&&lg[k].length)days++});
+  line.push("📖 "+(FULL[who]||who||"")+" 오늘의 말씀 ✅");
+  line.push(p[1]+"월 "+p[2]+"일 "+WDN[dt.getDay()]+"요일");
+  line.push("");
+  line.push(td.length?(fmt(td)+" ("+td.length+"장)"):"오늘 읽은 말씀 기록 전");
+  if(notes[t])line.push("✍️ "+notes[t]);
+  line.push("");
+  line.push("이번 주 "+days+"/6일 · 전체 "+pctTxt(count(ch)));
+  const url=location.protocol.indexOf("http")===0?(location.origin+location.pathname):"";
+  if(url){line.push("");line.push(url)}
+  return line.join("\n");
+}
+$("share").onclick=async()=>{
+  const txt=shareText();
+  try{
+    if(navigator.share){await navigator.share({title:"오늘의 말씀 인증",text:txt});return}
+  }catch(e){if(e&&e.name==="AbortError")return}
+  try{await navigator.clipboard.writeText(txt);toast("진행 상황을 복사했어요. 카톡에 붙여넣기 하세요",false);return}catch(e){}
+  try{
+    const ta=document.createElement("textarea");ta.value=txt;ta.style.position="fixed";ta.style.opacity="0";
+    document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();
+    toast("진행 상황을 복사했어요. 카톡에 붙여넣기 하세요",false);
+  }catch(e){toast("복사하지 못했어요",false)}
+};
 $("resetall").onclick=()=>{
   if(!who)return;
   const c=count(ch);
@@ -1258,6 +1313,9 @@ function tick(){
   const t=todayStr();
   if(t!==curDay){const was=selDate===curDay;curDay=t;if(was)focusToday();render()}
 }
+
+setTimeout(()=>{const sp=$("splash");if(sp)sp.remove()},2400);
+$("splash").onclick=()=>{const sp=$("splash");if(sp)sp.remove()};
 
 (async()=>{
   who=store.get();
