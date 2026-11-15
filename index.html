@@ -119,6 +119,10 @@ summary .c{color:var(--mut);font-size:12px;white-space:nowrap}
 .mfoot .pv{font-size:13px;color:var(--mut);margin-bottom:8px;min-height:20px}
 .mfoot .bt{display:flex;gap:10px}.mfoot .bt button{flex:1}
 .msec{font-size:13px;color:var(--mut);margin:12px 0 6px;font-weight:600}
+.cardwrap{padding:14px 16px;overflow:auto;display:flex;justify-content:center;background:var(--bg)}
+.cardwrap img{width:100%;max-width:340px;height:auto;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.28);display:block}
+.cload{padding:70px 0;color:var(--mut);font-size:14px;text-align:center}
+#mecard{width:100%;margin-top:12px}
 .bk{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:6px}
 .bk button{background:var(--card);color:var(--tx);border:1px solid var(--bd);padding:8px 4px;font-size:14px;line-height:1.3}
 .bk button small{display:block;color:var(--mut);font-size:11px}
@@ -266,6 +270,29 @@ textarea{font:inherit;width:100%;padding:11px;border-radius:10px;border:1px soli
 @keyframes hknee{0%,100%{transform:rotate(3deg)}30%{transform:rotate(14deg)}60%{transform:rotate(46deg)}}
 @keyframes harm{0%,100%{transform:rotate(16deg)}50%{transform:rotate(-20deg)}}
 .hero .hsw{animation:hsw 2.6s ease-in-out infinite alternate;transform-box:fill-box}
+.mefig .hbob{transform-box:fill-box;transform-origin:50% 100%;animation:hbob .62s ease-in-out infinite alternate}
+.mefig .hl1,.mefig .hk1,.mefig .har1{animation-duration:1.24s;animation-iteration-count:infinite;animation-timing-function:ease-in-out}
+.mefig .hl2,.mefig .hk2,.mefig .har2{animation-duration:1.24s;animation-iteration-count:infinite;animation-timing-function:ease-in-out;animation-delay:-.62s}
+.mefig .hl1,.mefig .hl2{animation-name:hthigh}
+.mefig .hk1,.mefig .hk2{animation-name:hknee;animation-timing-function:linear}
+.mefig .har1,.mefig .har2{animation-name:harm}
+.mefig .hsw{animation:hsw 2.6s ease-in-out infinite alternate;transform-box:fill-box}
+.melv{display:flex;gap:14px;align-items:flex-start}
+.mefig{width:100px;height:134px;flex:none;border-radius:14px;overflow:hidden;background:linear-gradient(165deg,#3a3150,#6b4a35)}
+.mefig.rest{background:linear-gradient(165deg,#2b2a33,#4a4038);filter:saturate(.6)}
+.mefig svg{width:100%;height:100%;display:block}
+.meinfo{flex:1;min-width:0}
+.mebadge{display:inline-block;font-size:11px;font-weight:700;color:#3a2d12;background:linear-gradient(135deg,#f3dc9a,#e0b24a);border-radius:99px;padding:3px 10px;letter-spacing:-.2px}
+.mebadge.none{background:var(--bd);color:var(--mut)}
+.meinfo b{display:block;font-size:17px;line-height:1.3;margin:7px 0 3px}
+.meinfo .md{font-size:13px;color:var(--mut);line-height:1.5;margin:0}
+.mebar{height:8px;border-radius:99px;background:var(--bd);overflow:hidden;margin:11px 0 5px}
+.mebar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#e0b24a,#f6e3ad);transition:width .5s}
+.mest{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0}
+.mest span{font-size:12px;font-weight:600;background:var(--acbg);color:var(--ac);border-radius:99px;padding:4px 10px}
+.mest span.warn{background:#f6e2d4;color:#9a5a33}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .mest span.warn{background:#4a3326;color:#e3b08a}}
+:root[data-theme="dark"] .mest span.warn{background:#4a3326;color:#e3b08a}
 @keyframes hsw{from{transform:rotate(-4deg)}to{transform:rotate(6deg)}}
 .hero .slpb{animation:hslp 3.6s ease-in-out infinite alternate;transform-box:fill-box}
 @keyframes hslp{from{transform:translateY(0)}to{transform:translateY(-1.4px)}}
@@ -435,7 +462,19 @@ textarea{font:inherit;width:100%;padding:11px;border-radius:10px;border:1px soli
     </div>
     <div class="card">
       <h2>나의 진행</h2>
-      <p id="meprog" style="margin:0"></p>
+      <div class="melv">
+        <div class="mefig" id="mefig"></div>
+        <div class="meinfo">
+          <span class="mebadge" id="metier"></span>
+          <b id="metitle"></b>
+          <p class="md" id="medesc"></p>
+          <div class="mebar"><i id="mepb"></i></div>
+          <span class="note" id="mepow"></span>
+        </div>
+      </div>
+      <div class="mest" id="mest"></div>
+      <p class="note" id="meprog" style="margin:12px 0 0"></p>
+      <button class="ghost" id="mecard">레벨 카드 만들기</button>
     </div>
   </section>
 </main>
@@ -474,6 +513,13 @@ textarea{font:inherit;width:100%;padding:11px;border-radius:10px;border:1px soli
     <h3 id="celttl"></h3>
     <p class="sm" id="celsub"></p>
     <button id="celok">아멘</button>
+  </div>
+</div>
+<div id="cardm" class="mback hide">
+  <div class="mbox">
+    <div class="mhead"><b>내 레벨 카드</b><button class="plain small" id="cardx">닫기</button></div>
+    <div class="cardwrap" id="cardwrap"></div>
+    <div class="mfoot"><p class="pv" id="cardnote"></p><div class="bt"><button class="ghost" id="cardsave">이미지 저장</button><button id="cardshare">공유하기</button></div></div>
   </div>
 </div>
 <div id="toast" class="toast hide"><span id="tmsg"></span><button id="tundo">되돌리기</button></div>
@@ -1451,6 +1497,184 @@ function renderCheer(t){
     if(!seen&&loaded){toast((FULL[o]||o)+"님이 응원을 보냈어요 💪");confetti()}
   }
 }
+// ---------- 내 정보: 레벨 초상화 ----------
+const RANK=[
+ {t:"맨몸의 순례자",   d:"갑옷도 무기도 아직 없어요. 그래도 길 위에 선 것만으로 이미 출발입니다."},
+ {t:"허리띠를 동인 사람", d:"진리로 허리를 조여 맸어요. 하루가 흐트러지지 않게 붙잡아 줍니다."},
+ {t:"복음의 신을 신은 사람", d:"어디로든 갈 준비가 됐어요. 걸음이 한결 가벼워졌습니다."},
+ {t:"흉배를 두른 파수꾼", d:"심장을 지키는 갑옷을 얻었어요. 웬만한 화살은 이제 튕겨 나갑니다."},
+ {t:"방패를 든 수호자",  d:"악한 자의 불화살을 모두 소멸시키는 중. 흔들려도 무너지지 않아요."},
+ {t:"투구를 눌러쓴 용사", d:"생각까지 지켜 주는 투구를 썼어요. 머리가 맑고 마음이 단단합니다."},
+ {t:"성령의 검을 든 전사", d:"막는 것을 넘어 나아갑니다. 전신갑주, 드디어 완성이에요."}
+];
+function streakOf(log){
+  const t=todayStr(),d=new Date();d.setHours(12,0,0,0);
+  if(!(log[t]&&log[t].length))d.setDate(d.getDate()-1);
+  let n=0,g=0;
+  while(g++<1500){
+    const k=dkey(d.getFullYear(),d.getMonth(),d.getDate());
+    if(log[k]&&log[k].length){n++;d.setDate(d.getDate()-1);continue}
+    if(d.getDay()===0){d.setDate(d.getDate()-1);continue}
+    break;
+  }
+  return n;
+}
+function meFigSVG(tier){
+  return '<svg viewBox="0 0 48 66" xmlns="http://www.w3.org/2000/svg">'
+   +'<defs><radialGradient id="mgl" cx=".5" cy=".44" r=".62"><stop offset="0" stop-color="#fff3c9" stop-opacity=".34"/><stop offset="1" stop-color="#fff3c9" stop-opacity="0"/></radialGradient></defs>'
+   +'<circle cx="24" cy="29" r="27" fill="url(#mgl)"/>'
+   +'<ellipse cx="24" cy="62" rx="15" ry="2.4" fill="rgba(0,0,0,.26)"/>'
+   +'<g transform="translate(3,4)">'+figure(who?av:0,who?COL[who]:"#8a6fa8",tier,'walk')+'</g></svg>';
+}
+function renderMe(){
+  const t=todayStr(),mc=count(ch);
+  $("meprog").textContent=loaded?(N+"장 중 "+mc+"장 완료 · "+pctTxt(mc)+" · "+pos(ch)):"기록을 불러오는 중…";
+  if(!who||!loaded){
+    $("metier").textContent="—";$("metier").className="mebadge none";
+    $("metitle").textContent=who?"기록을 불러오는 중이에요":"아직 이름을 고르지 않았어요";
+    $("medesc").textContent="";$("mepb").style.width="0%";$("mepow").textContent="";
+    $("mest").innerHTML="";$("mefig").innerHTML="";return;
+  }
+  const power=powerOf(lg),tier=tierOf(power),full=tier===ARMOR.length-1;
+  const nx=full?null:ARMOR[tier+1];
+  const ds=Object.keys(lg).filter(x=>lg[x]&&lg[x].length).sort();
+  const last=ds.length?ds[ds.length-1]:null;
+  const gap=last?Math.round((new Date(t)-new Date(last))/86400000):999;
+  const asleep=gap>=2, doneToday=!!(lg[t]&&lg[t].length);
+  const r=RANK[tier];
+  $("metier").textContent=tier?ARMOR[tier].l:"무장 전";
+  $("metier").className="mebadge"+(tier?"":" none");
+  const never=!last;
+  $("metitle").textContent=never?"길 앞에 선 사람":(asleep?"잠시 길에 앉은 "+r.t:r.t);
+  $("medesc").textContent=never?"아직 첫 기록이 없어요. 창세기 1장, 딱 한 장이면 여정이 시작됩니다."
+    :(asleep?"이틀 넘게 쉬는 동안 갑옷이 녹슬고 있어요. 한 장이면 다시 일어섭니다.":r.d);
+  $("mepb").style.width=(power/PMAX*100).toFixed(1)+"%";
+  $("mepow").textContent="무장 "+power+" / "+PMAX+(full?" · 완전 무장 ✨":" · "+nx.l+"까지 "+(nx.p-power));
+  const fg=$("mefig");fg.classList.toggle("rest",asleep);
+  const sig=who+"|"+av+"|"+tier;
+  if(fg._sig!==sig){fg._sig=sig;fg.innerHTML=meFigSVG(tier)}
+  const st=$("mest");st.innerHTML="";
+  const chip=(s,w)=>{const e=document.createElement("span");e.textContent=s;if(w)e.className="warn";st.appendChild(e)};
+  const sk=streakOf(lg);
+  if(sk>1)chip("🔥 "+sk+"일 연속");
+  const wk=weekDays().filter(d=>lg[d]&&lg[d].length).length;
+  chip("📖 이번 주 "+wk+"/6일");
+  if(asleep)chip("💤 "+(last?gap+"일째 쉬는 중":"아직 시작 전"),true);
+  else if(doneToday)chip("✅ 오늘 완료");
+  else if(new Date().getDay()===0)chip("🕊 주일 · 쉬어가는 날");
+  else chip("🕘 오늘 아직");
+}
+// ---------- 레벨 카드 이미지 ----------
+const CARDT=[
+ {s:["#1d2439","#4b5572"],a:"#9fb0d4",n:"새벽 길 위에서"},
+ {s:["#2a2946","#6d5c70"],a:"#e6bd6a",n:"이른 아침의 결심"},
+ {s:["#1c3c4e","#4f9078"],a:"#86dcae",n:"아침 들판을 지나"},
+ {s:["#3a3526","#8d6c3e"],a:"#f2cb6c",n:"한낮의 행군"},
+ {s:["#45263f","#a4584e"],a:"#ffb892",n:"황혼의 언덕에서"},
+ {s:["#282350","#78477e"],a:"#cfa8ff",n:"별빛 아래의 밤"},
+ {s:["#3b2810","#b5802c"],a:"#ffd778",n:"영광의 빛 가운데"}
+];
+function esc(s){return String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))}
+function cardFigure(i,shirt,tier){
+  let s=figure(i,shirt,tier,'walk');
+  const put=(c,rot,ox,oy)=>{s=s.replace('<g class="'+c+'" style="transform-origin:'+ox+'px '+oy+'px">','<g transform="rotate('+rot+' '+ox+' '+oy+')">')};
+  put('hl2',-27,20,37); put('hk2',34,20,46); put('har2',tier>=4?-8:24,20.4,24);
+  put('hl1',26,20,37); put('hk1',-13,20,46); put('har1',-24,20.6,24);
+  return s.replace('<g class="hbob">','<g>');
+}
+function cardSVG(i,nm,tier,power,streak,pctS,chaps){
+  const C=CARDT[tier], W=720, H=1120, FT=680;
+  const r=RANK[tier], parts=r.d.split(". ");
+  const l1=parts[0]?parts[0]+(parts.length>1?".":""):r.d, l2=parts.slice(1).join(". ");
+  const d=new Date(), ds=d.getFullYear()+"."+String(d.getMonth()+1).padStart(2,"0")+"."+String(d.getDate()).padStart(2,"0");
+  const F="-apple-system,'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic','Nanum Gothic',sans-serif";
+  let stars="";
+  for(let k=0;k<46;k++){
+    const x=((k*131)%71)/70*W, y=((k*277)%53)/52*470+40, rr=(k%4)*.5+.9, o=((k*37)%60)/160+.18;
+    stars+='<circle cx="'+x.toFixed(0)+'" cy="'+y.toFixed(0)+'" r="'+rr.toFixed(1)+'" fill="#fff" opacity="'+o.toFixed(2)+'"/>';
+  }
+  let rays="";
+  for(let k=-4;k<=4;k++) rays+='<path d="M360 150L'+(360+k*120-70)+' 760L'+(360+k*120+70)+' 760Z" fill="url(#cry)" opacity="'+(k%2?.14:.22)+'"/>';
+  const peak='<path d="M-40 700L120 500L215 420L330 540L460 450L580 530L760 700Z" fill="#000" opacity=".26"/>'
+    +'<path d="M78 700L215 448L352 700Z" fill="#000" opacity=".34"/>'
+    +'<circle cx="215" cy="404" r="62" fill="url(#crg)"/>'
+    +'<g opacity=".95"><rect x="209" y="366" width="13" height="88" rx="5" fill="'+C.a+'"/><rect x="189" y="389" width="53" height="12" rx="5" fill="'+C.a+'"/></g>';
+  const chip=(x,lab,val)=>'<g><text x="'+x+'" y="952" text-anchor="middle" font-size="19" fill="#ffffff" opacity=".6" font-family="'+F+'">'+esc(lab)+'</text>'
+    +'<text x="'+x+'" y="984" text-anchor="middle" font-size="26" font-weight="700" fill="#fff" font-family="'+F+'">'+esc(val)+'</text></g>';
+  return '<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" font-family="'+F+'">'
+  +'<defs>'
+  +'<linearGradient id="csk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+C.s[0]+'"/><stop offset=".62" stop-color="'+C.s[1]+'"/><stop offset="1" stop-color="'+C.s[0]+'"/></linearGradient>'
+  +'<linearGradient id="cry" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+C.a+'" stop-opacity=".55"/><stop offset="1" stop-color="'+C.a+'" stop-opacity="0"/></linearGradient>'
+  +'<radialGradient id="crg" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff6d8" stop-opacity=".8"/><stop offset="1" stop-color="#fff6d8" stop-opacity="0"/></radialGradient>'
+  +'<radialGradient id="cau" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="'+C.a+'" stop-opacity=".55"/><stop offset=".6" stop-color="'+C.a+'" stop-opacity=".16"/><stop offset="1" stop-color="'+C.a+'" stop-opacity="0"/></radialGradient>'
+  +'<linearGradient id="csc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d0b12" stop-opacity="0"/><stop offset=".35" stop-color="#0d0b12" stop-opacity=".72"/><stop offset="1" stop-color="#0d0b12" stop-opacity=".95"/></linearGradient>'
+  +'<linearGradient id="cgd" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f6e3ad"/><stop offset="1" stop-color="#dfae47"/></linearGradient>'
+  +'<linearGradient id="cgb" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="'+C.a+'"/><stop offset="1" stop-color="#fff2cf"/></linearGradient>'
+  +'<clipPath id="ccl"><rect x="0" y="0" width="'+W+'" height="'+H+'" rx="40"/></clipPath>'
+  +'</defs>'
+  +'<g clip-path="url(#ccl)">'
+  +'<rect width="'+W+'" height="'+H+'" fill="url(#csk)"/>'
+  +stars+rays+peak
+  +'<path d="M-40 690q200-26 400-18 240 10 400 26V'+H+'H-40Z" fill="#000" opacity=".34"/>'
+  +'<ellipse cx="408" cy="486" rx="246" ry="246" fill="url(#cau)"/>'
+  +'<ellipse cx="408" cy="'+(FT+6)+'" rx="134" ry="20" fill="#000" opacity=".3"/>'
+  +'<g transform="translate(408,'+FT+') scale(7.1) translate(-20,-57)">'+cardFigure(i,COL[nm]||"#8a6fa8",tier)+'</g>'
+  +'<rect y="520" width="'+W+'" height="600" fill="url(#csc)"/>'
+  +'<g><rect x="222" y="690" width="276" height="46" rx="23" fill="url(#cgd)"/>'
+  +'<text x="360" y="721" text-anchor="middle" font-size="23" font-weight="700" fill="#3a2d12">'+esc(tier?ARMOR[tier].l:"아직 무장 전")+'</text></g>'
+  +'<text x="360" y="798" text-anchor="middle" font-size="46" font-weight="800" fill="#fff" letter-spacing="-1">'+esc(r.t)+'</text>'
+  +'<text x="360" y="842" text-anchor="middle" font-size="22" fill="#ffffff" opacity=".78">'+esc(l1)+'</text>'
+  +(l2?'<text x="360" y="874" text-anchor="middle" font-size="22" fill="#ffffff" opacity=".78">'+esc(l2)+'</text>':'')
+  +'<path d="M130 906h460" stroke="#ffffff" stroke-opacity=".18" stroke-width="1.6"/>'
+  +chip(180,"무장",power+" / "+PMAX)+chip(360,"연속",streak+"일")+chip(540,"읽은 분량",pctS)
+  +'<rect x="130" y="1012" width="460" height="12" rx="6" fill="#ffffff" fill-opacity=".16"/>'
+  +'<rect x="130" y="1012" width="'+Math.max(10,Math.round(460*power/PMAX))+'" height="12" rx="6" fill="url(#cgb)"/>'
+  +'<text x="130" y="1068" font-size="21" font-weight="700" fill="#fff" opacity=".92">'+esc((FULL[nm]||nm)+" · "+chaps+"장")+'</text>'
+  +'<text x="590" y="1068" text-anchor="end" font-size="19" fill="#fff" opacity=".55">'+esc(ds)+'</text>'
+  +'<text x="360" y="86" text-anchor="middle" font-size="20" font-weight="700" fill="#fff" opacity=".5" letter-spacing="4">'+esc(C.n)+'</text>'
+  +'<rect x="22" y="22" width="'+(W-44)+'" height="'+(H-44)+'" rx="30" fill="none" stroke="'+C.a+'" stroke-opacity=".5" stroke-width="2.5"/>'
+  +'<rect x="34" y="34" width="'+(W-68)+'" height="'+(H-68)+'" rx="22" fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="1.4"/>'
+  +'<g fill="none" stroke="'+C.a+'" stroke-width="5" stroke-linecap="round" opacity=".9"><path d="M22 92V52a30 30 0 0 1 30-30h40"/><path d="M698 92V52a30 30 0 0 0-30-30h-40"/><path d="M22 1028v40a30 30 0 0 0 30 30h40"/><path d="M698 1028v40a30 30 0 0 1-30 30h-40"/></g>'
+  +'</g></svg>';
+}
+let cardURL=null,cardBlob=null;
+function rasterize(svg,w,h,sc){
+  return new Promise((res,rej)=>{
+    const u=URL.createObjectURL(new Blob([svg],{type:"image/svg+xml;charset=utf-8"})),im=new Image();
+    im.onload=()=>{
+      try{
+        const c=document.createElement("canvas");c.width=w*sc;c.height=h*sc;
+        const x=c.getContext("2d");x.drawImage(im,0,0,c.width,c.height);
+        URL.revokeObjectURL(u);
+        c.toBlob(b=>{b?res({url:URL.createObjectURL(b),blob:b}):rej(new Error("blob"))},"image/png",.95);
+      }catch(err){URL.revokeObjectURL(u);rej(err)}
+    };
+    im.onerror=()=>{URL.revokeObjectURL(u);rej(new Error("img"))};
+    im.src=u;
+  });
+}
+function cardName(){const d=new Date();return "말씀카드-"+d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0")+".png"}
+function openCard(){
+  if(!who){openIntro(0);return}
+  const power=powerOf(lg),tier=tierOf(power),mc=count(ch);
+  const svg=cardSVG(av,who,tier,power,streakOf(lg),pctTxt(mc),mc);
+  if(cardURL){URL.revokeObjectURL(cardURL);cardURL=null;cardBlob=null}
+  $("cardwrap").innerHTML='<div class="cload">카드를 만드는 중…</div>';
+  $("cardnote").textContent="";
+  $("cardsave").disabled=true;$("cardshare").disabled=true;
+  $("cardm").classList.remove("hide");document.body.style.overflow="hidden";
+  rasterize(svg,720,1120,2).then(o=>{
+    cardURL=o.url;cardBlob=o.blob;
+    const im=document.createElement("img");im.src=o.url;im.alt="레벨 카드";
+    $("cardwrap").innerHTML="";$("cardwrap").appendChild(im);
+    $("cardsave").disabled=false;$("cardshare").disabled=false;
+    $("cardnote").textContent="이미지를 길게 눌러 저장할 수도 있어요.";
+  }).catch(()=>{
+    $("cardwrap").innerHTML='<div class="cload">카드를 만들지 못했어요. 잠시 후 다시 시도해 주세요.</div>';
+    $("cardnote").textContent="";
+  });
+}
+function closeCard(){$("cardm").classList.add("hide");document.body.style.overflow=""}
 function render(){
   if(!built){buildBooks();built=true}
   const t=todayStr();
@@ -1458,7 +1682,7 @@ function render(){
   $("chgav").classList.toggle("hide",!who);
   $("mename").textContent=who?((FULL[who]||who)+"님으로 기록 중이에요."):"아직 이름을 고르지 않았어요.";
   const mc=count(ch);
-  $("meprog").textContent=loaded?(N+"장 중 "+mc+"장 완료 · "+pctTxt(mc)+" · "+pos(ch)):"기록을 불러오는 중…";
+  renderMe();
   $("bsum").textContent=loaded?(N+"장 중 "+mc+"장 완료 · "+pctTxt(mc)):"";
   renderNext();renderDayEdit();renderBooks();renderTeam(t);renderCheer(t);renderCal(t);renderTl();
 }
@@ -1767,6 +1991,26 @@ $("modal").onclick=e=>{if(e.target.id==="modal")closePick()};
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closePick()});
 
 $("chgav").onclick=()=>openIntro(1);
+$("mecard").onclick=openCard;
+$("cardx").onclick=closeCard;
+$("cardm").onclick=e=>{if(e.target===$("cardm"))closeCard()};
+$("cardsave").onclick=()=>{
+  if(!cardURL)return;
+  const a=document.createElement("a");a.href=cardURL;a.download=cardName();
+  document.body.appendChild(a);a.click();a.remove();
+  toast("이미지를 저장했어요 🖼");
+};
+$("cardshare").onclick=async()=>{
+  if(!cardBlob)return;
+  const txt=(FULL[who]||who)+"님의 말씀 여정 · "+RANK[tierOf(powerOf(lg))].t;
+  try{
+    const f=new File([cardBlob],cardName(),{type:"image/png"});
+    if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],text:txt});return}
+  }catch(e){if(e&&e.name==="AbortError")return}
+  $("cardsave").click();
+  toast("공유가 안 되는 기기예요. 저장 후 보내주세요.");
+};
+
 let curPg="home";
 function go(p){
   curPg=p;
