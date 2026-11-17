@@ -304,6 +304,7 @@ textarea{font:inherit;width:100%;padding:11px;border-radius:10px;border:1px soli
 .meinfo .md{font-size:13px;color:var(--mut);line-height:1.5;margin:0}
 .mebar{height:8px;border-radius:99px;background:var(--bd);overflow:hidden;margin:11px 0 5px}
 .mebar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#e0b24a,#f6e3ad);transition:width .5s}
+.mebar i.pil{background:linear-gradient(90deg,#5f9e74,#9fd0a8,#e7c25f)}
 .mest{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0}
 .mest span{font-size:12px;font-weight:600;background:var(--acbg);color:var(--ac);border-radius:99px;padding:4px 10px}
 .mest span.warn{background:#f6e2d4;color:#9a5a33}
@@ -329,6 +330,19 @@ textarea{font:inherit;width:100%;padding:11px;border-radius:10px;border:1px soli
 .hero .wgL,.hero .wgR{transform-box:fill-box;animation:wgf .34s ease-in-out infinite alternate}
 @keyframes wgf{from{transform:rotate(-14deg)}to{transform:rotate(16deg)}}
 .agh{opacity:0}
+.sechd{display:flex;align-items:baseline;gap:8px;margin:20px 2px 8px;padding-bottom:7px;border-bottom:1px solid var(--bd)}
+.sechd b{font-size:14.5px;color:var(--ac)}
+.sechd span{font-size:11.5px;color:var(--mut)}
+.sechd i{margin-left:auto;font-style:normal;font-size:11.5px;font-weight:700;color:var(--mut)}
+.sechd i.ok{color:var(--ac)}
+.secmap{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 10px;margin:14px 0 2px}
+.secmap div{min-width:0}
+.secmap b{display:block;font-size:11px;font-weight:700;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.secmap u{display:block;height:6px;border-radius:99px;background:var(--bd);margin:4px 0 3px;overflow:hidden}
+.secmap u i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#5f9e74,#e0b24a);transition:width .5s}
+.secmap s{display:block;font-size:10.5px;color:var(--mut);text-decoration:none}
+.secmap div.on b{color:var(--ac)}
+#v1 .sechd:first-child{margin-top:2px}
 .rout .dmn{animation:rout 1.05s cubic-bezier(.25,.9,.35,1) forwards!important}
 .rout .agh{animation:aghp 1.05s ease-out forwards}
 .rout .wgL,.rout .wgR{animation-duration:.12s!important}
@@ -399,9 +413,9 @@ textarea{font:inherit;width:100%;padding:11px;border-radius:10px;border:1px soli
 .hero .gbar{position:relative;height:9px;border-radius:99px;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.25);overflow:hidden}
 .hero .gbar i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:99px;background:linear-gradient(90deg,#e0b24a,#ffe49a);transition:width .8s cubic-bezier(.3,1,.4,1)}
 .hero .gbar.low i{background:linear-gradient(90deg,#b4524f,#e08a7a)}
-.hero .gticks{position:absolute;inset:0;display:flex}
-.hero .gticks span{flex:1;border-right:1px solid rgba(255,255,255,.22)}
-.hero .gticks span:last-child{border-right:none}
+.hero .gbar.pil i{background:linear-gradient(90deg,#8fd0a3,#ffe49a,#fff6cf)}
+.hero .gticks{position:absolute;inset:0;pointer-events:none}
+.hero .gticks i{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.26)}
 .hero .gauge.hide{display:none}
 </style>
 </head>
@@ -428,7 +442,7 @@ textarea{font:inherit;width:100%;padding:11px;border-radius:10px;border:1px soli
       </div>
       <div class="gauge hide" id="gauge">
         <div class="gl"><span id="gl1"></span><span id="gl2"></span></div>
-        <div class="gbar" id="gbar"><i id="gfill"></i><div class="gticks"><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+        <div class="gbar" id="gbar"><i id="gfill"></i><div class="gticks" id="gticks"></div></div>
       </div>
     </header>
       <div class="htrack hide" id="mylane"></div>
@@ -516,6 +530,7 @@ textarea{font:inherit;width:100%;padding:11px;border-radius:10px;border:1px soli
           <span class="note" id="mepow"></span>
         </div>
       </div>
+      <div class="secmap hide" id="secmap"></div>
       <div class="mest" id="mest"></div>
       <p class="note" id="meprog" style="margin:12px 0 0"></p>
       <button class="ghost" id="mecard">🎉 친구에게 자랑하기</button>
@@ -677,8 +692,8 @@ const LVUP=[null,
  {t:"의의 흉배를 둘렀습니다",d:"심장을 지키는 갑옷을 얻었어요. 방어막이 한 겹 더 두꺼워집니다."},
  {t:"믿음의 방패를 들었습니다",d:"악한 자의 모든 불화살을 소멸시킵니다. 흔들려도 무너지지 않아요."},
  {t:"구원의 투구를 썼습니다",d:"생각까지 지켜 주는 투구예요. 바깥으로 결계가 한 겹 더 둘러집니다."},
- {t:"성령의 검을 잡았습니다",d:"막는 것을 넘어 나아갑니다. 전신갑주, 드디어 완성이에요!"}];
-let pendingLv=-1;
+ {t:"성령의 검을 잡았습니다",d:"전신갑주 완성! 여기서부터는 새 장이 열립니다. 이제 성경 66권을 한 권씩 끝내며 천성의 문까지 걸어가요."}];
+let pendingLv=-1, pendingBk=-1, pendingSec=-1;
 // 무장 단계가 올라갔는지 확인 (내려갔으면 조용히 기록만)
 function checkLevelUp(){
   if(!who)return -1;
@@ -714,6 +729,13 @@ function powerOf(log,out){
   return p;
 }
 function tierOf(p){let t=0;ARMOR.forEach((a,i)=>{if(p>=a.p)t=i});return t}
+// 게이지 눈금 한 칸 = 장비 하나. ARMOR 구간이 균등하지 않으므로 구간별로 환산한다.
+function fillPctOf(p){
+  const n=ARMOR.length-1, t=tierOf(p);
+  if(t>=n)return 100;
+  const a=ARMOR[t].p, b=ARMOR[t+1].p;
+  return Math.max(0,Math.min(100,(t+(p-a)/(b-a))/n*100));
+}
 // 마지막 기록 다음 날부터 어제까지, 주일(일요일)을 뺀 "빠진 날" 수
 function missedOf(last,t){
   if(!last)return 999;
@@ -1049,11 +1071,11 @@ function satanSVG(tier,night,asleep){
         +bub+'<g transform="translate(1,-2)">'+ic+'</g></g></g>';
     });
   }
-  const w=(2.2+lv*0.62).toFixed(1), base=(0.30+lv*0.09).toFixed(2), bow=24+lv*1.6, ext=lv*3;
+  const w=(1.8+lv*0.40).toFixed(1), base=(0.30+lv*0.058).toFixed(2), bow=24+lv*1.6, ext=lv*3;
   const arc='d="M'+BX+' '+(98-ext)+'Q'+(BX-bow)+' 148 '+BX+' '+(198+ext)+'"';
   const shield=lv?('<g opacity="'+base+'">'
-    +(lv>=3?'<path d="M'+BX+' '+(98-ext)+'Q'+(BX-bow-2)+' 148 '+BX+' '+(198+ext)+'Z" fill="url(#shf)" opacity="'+(0.16+lv*0.045).toFixed(2)+'"/>':'')
-    +'<path class="shd" '+arc+' fill="none" stroke="#ffeec2" stroke-width="'+(+w+5+lv)+'" stroke-linecap="round" opacity="'+(0.2+lv*0.035).toFixed(2)+'"/>'
+    +(lv>=3?'<path d="M'+BX+' '+(98-ext)+'Q'+(BX-bow-2)+' 148 '+BX+' '+(198+ext)+'Z" fill="url(#shf)" opacity="'+(0.10+lv*0.028).toFixed(2)+'"/>':'')
+    +'<path class="shd" '+arc+' fill="none" stroke="#ffeec2" stroke-width="'+(+w+4).toFixed(1)+'" stroke-linecap="round" opacity="'+(0.18+lv*0.028).toFixed(2)+'"/>'
     +'<path class="shd" '+arc+' fill="none" stroke="#fff9e8" stroke-width="'+w+'" stroke-linecap="round"/>'
     +(lv>=5?'<path class="shd" style="animation-delay:.02s" d="M'+(BX+9)+' '+(90-ext)+'Q'+(BX-bow-4)+' 148 '+(BX+9)+' '+(206+ext)+'" fill="none" stroke="#ffd98a" stroke-width="2.2" stroke-dasharray="7 10" stroke-linecap="round" opacity=".55"/>':'')
     +(lv>=6?'<path class="shd" style="animation-delay:.05s" d="M'+(BX+17)+' '+(84-ext)+'Q'+(BX-bow-10)+' 148 '+(BX+17)+' '+(212+ext)+'" fill="none" stroke="#ffe9b4" stroke-width="1.6" stroke-dasharray="4 12" stroke-linecap="round" opacity=".45"/>':'')
@@ -1085,6 +1107,61 @@ function satanSVG(tier,night,asleep){
   +'</g></g></g>'+arrows+shield+sparks+hits+thoughts+'</g>';
 }
 // ---------- 단계별 배경 (천로역정 7구간) ----------
+// ===== 2막: 전신갑주 이후 — 성경 66권을 따라 천성의 문까지 =====
+const SEC=[
+ {nm:"모세오경", a:0,  b:4,  land:"시내 광야",       done:"율법의 광야를 건넜습니다. 이제 약속의 땅, 성읍들의 역사로."},
+ {nm:"역사서",   a:5,  b:16, land:"약속의 성읍",     done:"세워지고 무너지는 역사를 지났습니다. 이제 노래와 탄식의 동산으로."},
+ {nm:"시가서",   a:17, b:21, land:"노래의 동산",     done:"눈물과 찬양의 골짜기를 지났습니다. 이제 선지자들의 외침 속으로."},
+ {nm:"선지서",   a:22, b:38, land:"외침의 폐허",     done:"폐허 위의 목소리를 다 들었습니다. 이제 그분이 오시는 갈릴리로."},
+ {nm:"복음서",   a:39, b:43, land:"갈릴리 호숫가",   done:"그분을 만났습니다. 이제 편지들을 품고 바다를 건넙니다."},
+ {nm:"서신서",   a:44, b:65, land:"천성을 향한 바다", done:"천성의 문 앞에 섰습니다. 성경 66권, 완주하셨어요!"}
+];
+const BKLINE=["하늘과 땅이 열리고, 한 사람과의 약속이 시작됩니다.","종살이에서 건져내신 손, 그리고 시내산의 언약.","거룩하신 분 앞에 나아가는 길을 배웁니다.","광야 사십 년, 불평과 인도하심 사이에서.","요단 앞에서 다시 듣는 사랑의 계명.","약속의 땅으로, 한 걸음씩 믿음으로.","돌아섰다 돌아오는 사람들, 변함없는 자비.","낯선 땅의 여인이 구속의 계보에 들어옵니다.","왕을 구한 백성과, 마음을 보시는 하나님.","다윗의 영광과 눈물이 함께 흐릅니다.","성전이 세워지고, 마음은 나뉘어 갑니다.","무너지는 나라 가운데서도 남겨두신 사람들.","이름과 이름으로 이어진 신실하심의 기록.","성전 중심의 역사, 회개하면 돌이키시는 분.","돌아와 다시 세우는 예배의 기초.","성벽을 쌓는 손과 기도하는 무릎.","이름이 숨은 자리에서도 일하시는 섭리.","까닭을 묻는 자리에서 끝내 하나님을 만납니다.","탄식과 찬양이 함께 사는 기도의 집.","하루를 살아내는 지혜가 여기에 있습니다.","해 아래 헛됨을 지나 경외함에 이릅니다.","사랑이 죽음같이 강하다는 노래.","심판 너머로 보이는 한 아기, 한 종.","우는 선지자의 목소리와 새 언약의 약속.","폐허 위에서도 아침마다 새로운 자비.","마른 뼈가 일어서고 영광이 돌아옵니다.","불과 사자 굴에서도 굽히지 않은 무릎.","끝까지 다시 찾아오시는 사랑.","재를 뒤집어쓴 땅에 부어지는 성령.","정의를 물같이, 공의를 마르지 않는 강같이.","교만한 자가 낮아지는 하루.","도망친 자리까지 따라오신 긍휼.","정의와 인자와 겸손, 그분이 구하시는 것.","노하기를 더디 하시나 끝내 묵과하지 않으시는 분.","묻고 기다리다 끝내 높은 곳을 걷습니다.","잠잠히 사랑하시며 기쁨으로 부르시는 분.","먼저 그분의 집을 생각하라는 부름.","힘으로도 능으로도 아니요 오직 그의 영으로.","해가 떠오르기를 기다리며 구약이 닫힙니다.","약속하신 왕이 오셨습니다.","섬기러 오신 분의 빠른 걸음.","가장 낮은 자리를 찾아오신 사랑.","태초의 말씀이 우리 가운데 거하셨습니다.","성령으로 땅끝까지, 교회가 걸어갑니다.","믿음으로 사는 사람의 복음 지도.","흔들리는 교회에 주신 사랑의 길.","약할 때 강해지는 역설의 은혜.","자유를 주신 분께 붙잡힌 삶.","전신갑주, 이 여정의 출발점이 여기 있었습니다.","어떤 형편에서도 기뻐하는 법.","만물보다 먼저 계신 그리스도.","다시 오실 그분을 기다리는 일상.","흔들리지 말고 선을 행하라는 당부.","믿음의 아들에게 남긴 목회의 말.","선한 싸움을 싸우고 달려갈 길을 마쳤습니다.","배운 은혜가 삶으로 드러나도록.","종이 아니라 형제로 맞으라는 편지.","더 좋은 언약, 더 좋은 대제사장.","행함으로 숨 쉬는 믿음.","나그네로 살아가는 이들에게.","은혜와 지식에서 자라가라.","하나님은 사랑이시라, 그 안에 거하라.","진리 안에서 서로 사랑하라.","진리 안에서 행한다는 소식, 가장 큰 기쁨.","믿음의 도를 위하여 힘써 싸우라.","천성의 문이 열립니다. 어린양이 이기셨습니다."];
+const SECROLE=[
+ {t:"광야를 건너는 순례자", d:"모래바람 속에서 율법의 돌판을 품고 걷는 중. 여정의 첫 구간입니다."},
+ {t:"성읍을 지나는 증인",   d:"세워지고 무너지는 역사를 눈에 담으며 걷는 중. 신실하심만 남습니다."},
+ {t:"노래를 품은 나그네",   d:"탄식도 찬양도 기도가 되는 동산을 지나는 중입니다."},
+ {t:"폐허에서 듣는 사람",   d:"무너진 돌 위에서 선지자의 목소리를 듣고 있습니다."},
+ {t:"호숫가에서 만난 제자", d:"갈릴리 물가에서 그분을 직접 만나는 구간입니다."},
+ {t:"바다를 건너는 사도",   d:"편지를 품고 마지막 바다를 건너는 중. 천성의 문이 보입니다."}
+];
+const bookDone=(s,i)=>{const a=START[i],n=BOOKS[i][1];for(let k=0;k<n;k++)if(s[a+k]!=="1")return false;return true};
+function booksDone(s){let c=0;for(let i=0;i<BOOKS.length;i++)if(bookDone(s,i))c++;return c}
+function nextBookIdx(s){for(let i=0;i<BOOKS.length;i++)if(!bookDone(s,i))return i;return -1}
+function secIdxOfBook(i){for(let k=0;k<SEC.length;k++)if(i>=SEC[k].a&&i<=SEC[k].b)return k;return SEC.length-1}
+// 성경을 순서대로 읽지 않아도 되도록: 지금 머무는 땅 = 가장 최근에 읽은 장이 속한 구간
+function secOf(s){
+  if(booksDone(s)>=BOOKS.length)return SEC.length-1;
+  const b=(typeof lastBookIdx==="function")?lastBookIdx():-1;
+  if(b>=0)return secIdxOfBook(b);
+  const i=nextBookIdx(s);return i<0?SEC.length-1:secIdxOfBook(i);
+}
+// 마무리가 가장 가까운 책 — 이미 손댄 책 중 남은 장이 가장 적은 것
+function focusBookIdx(s){
+  let best=-1,bl=1e9;
+  for(let i=0;i<BOOKS.length;i++){
+    if(bookDone(s,i))continue;
+    const n=BOOKS[i][1], left=bookLeft(s,i);
+    if(left>=n)continue;
+    if(left<bl||(left===bl&&best<0)){bl=left;best=i}
+  }
+  if(best>=0)return best;
+  const b=(typeof lastBookIdx==="function")?lastBookIdx():-1;
+  if(b>=0&&!bookDone(s,b))return b;
+  return nextBookIdx(s);
+}
+// 구간별 완독 권수
+function secDone(s,k){let d=0;for(let i=SEC[k].a;i<=SEC[k].b;i++)if(bookDone(s,i))d++;return d}
+function bookLeft(s,i){if(i<0)return 0;const a=START[i],n=BOOKS[i][1];let c=0;for(let k=0;k<n;k++)if(s[a+k]!=="1")c++;return c}
+// 구분 경계(권 기준) 눈금 위치 %
+const SECTICK=SEC.slice(0,-1).map(x=>(x.b+1)/BOOKS.length*100);
+const EQTICK=[1,2,3,4,5].map(i=>i/6*100);
+function setTicks(arr){
+  const g=document.getElementById("gticks");if(!g)return;
+  const k=arr.join(",");if(g._k===k)return;g._k=k;
+  g.innerHTML=arr.map(p=>'<i style="left:'+p.toFixed(2)+'%"></i>').join("");
+}
+
 const BIO=[
  {nm:"푸른 들판", sky:["#8ec5e8","#d3e9f5","#f3e6c8"], far:"#a6cdae", mid:"#83b88c", near:"#65a371",
   gnd:"#74945f", gnd2:"#5f7d50", road:"#e6d2a0", roadE:"#ccb480", sun:"#fff6c6",
@@ -1122,10 +1199,25 @@ const BIO=[
   md:"M-10 162L36 128l52 26 52-24 58 30 54-20 70 26 84-14v54H-10z",
   hd:"M-10 176L28 162l52 10 54-14 58 12 60-16 74 12 70-6v38H-10z", kind:"sea"}
 ];
-function heroSVG(i,shirt,night,prog,asleep,tier,sunday){
+// 2막 지형 — 성경 6구분을 따라간다 (능선 실루엣은 1막 것을 재사용)
+const BIO2=[
+ {nm:"시내 광야", src:2, kind:"desert", sky:["#eec07c","#f6dcae","#f4e6c6"], far:"#d8b183", mid:"#c69c6e", near:"#b28655",
+  gnd:"#cfa96f", gnd2:"#b8915a", road:"#eddcb4", roadE:"#d4bd90", sun:"#fff2bd"},
+ {nm:"약속의 성읍", src:0, kind:"city", sky:["#9ec9e6","#d9e9f2","#efe3c6"], far:"#a2b392", mid:"#8ca47e", near:"#77926d",
+  gnd:"#a99a72", gnd2:"#8f8260", road:"#e3d4a8", roadE:"#c6b78b", sun:"#fff6cc"},
+ {nm:"노래의 동산", src:0, kind:"garden", sky:["#a6d8e8","#dff0ef","#f3ecd6"], far:"#92c4a8", mid:"#77af95", near:"#5f9a82",
+  gnd:"#7fa471", gnd2:"#688c5e", road:"#e8dcb2", roadE:"#cdc08f", sun:"#fff8d6"},
+ {nm:"외침의 폐허", src:4, kind:"thorn", sky:["#6f6c90","#9d91a6","#cfb497"], far:"#6d6482", mid:"#5c5572", near:"#4c4662",
+  gnd:"#6d6355", gnd2:"#574f45", road:"#bfae92", roadE:"#9e8f77", sun:"#ffd9a0"},
+ {nm:"갈릴리 호숫가", src:1, kind:"lake", sky:["#8fd0e8","#d0eaf2","#f5edd2"], far:"#93bac8", mid:"#7ca8b6", near:"#6da28b",
+  gnd:"#9fae7e", gnd2:"#86956a", road:"#ecdfb6", roadE:"#cfc192", sun:"#fff9d8"},
+ {nm:"천성을 향한 바다", src:6, kind:"sea", sky:["#f2b56e","#f7d7a4","#f1e1c8"], far:"#9c91b2", mid:"#817c9e", near:"#6c6c8c",
+  gnd:"#8f8c7a", gnd2:"#777463", road:"#e6d8b0", roadE:"#c9bc90", sun:"#ffe3a8"}
+].map(x=>Object.assign({},x,{fd:BIO[x.src].fd,md:BIO[x.src].md,hd:BIO[x.src].hd}));
+function heroSVG(i,shirt,night,prog,asleep,tier,sunday,sec){
   if(sunday)return churchSVG(i,shirt,tier,night);
   const GD='#e0b24a', mv=asleep?"":"mv";
-  const B=BIO[Math.max(0,Math.min(BIO.length-1,tier|0))];
+  const B=(sec>=0)?BIO2[Math.max(0,Math.min(BIO2.length-1,sec|0))]:BIO[Math.max(0,Math.min(BIO.length-1,tier|0))];
   const dk=c=>night?shade(c,.46):c;
   const far=dk(B.far), mid=dk(B.mid), near=dk(B.near);
   const grnd=dk(B.gnd), grnd2=dk(B.gnd2), road=dk(B.road), roadE=dk(B.roadE);
@@ -1176,6 +1268,36 @@ function heroSVG(i,shirt,night,prog,asleep,tier,sunday){
     treeI='<g fill="'+dark+'"><path d="M34 166l20-32 20 32z"/><path d="M212 166l16-26 16 26z"/><path d="M336 166l13-21 13 21z"/></g>';
     rockI='<g fill="'+dk("#6a5c76")+'"><path d="M60 194l14-18 15 18z"/><path d="M212 196l10-13 11 13z"/><path d="M320 192l13-17 14 17z"/></g>';
     grasI='<g stroke="'+dk("#6b5f78")+'" stroke-width="2.2" stroke-linecap="round"><path d="M24 204v-7M140 204v-6M262 204v-7M344 204v-5"/></g>';
+  }else if(K==="desert"){
+    treeI='<g fill="'+dk("#9b7b4e")+'"><path d="M36 166q16-26 34 0z" opacity=".5"/><path d="M214 166q14-22 30 0z" opacity=".5"/></g>'
+      +'<g fill="'+dk("#6f8f5a")+'"><path d="M104 166v-22a5 5 0 0 1 10 0v22zM100 152v-8a4 4 0 0 1 8 0v6zM114 156v-9a4 4 0 0 1 8 0v7z"/>'
+      +'<path d="M320 166v-18a4.4 4.4 0 0 1 8.8 0v18zM316 155v-7a3.4 3.4 0 0 1 6.8 0v5z"/></g>';
+    rockI='<g fill="'+dk("#b7a177")+'"><path d="M60 194l12-12 13 12z"/><path d="M250 196l9-10 10 10z"/></g>'
+      +'<g stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".45"><path d="M150 188h22M158 193h20M300 190h18"/></g>';
+    grasI='<g stroke="'+dk("#a8925f")+'" stroke-width="2.2" stroke-linecap="round"><path d="M26 204v-6M132 204v-5M248 204v-6M346 204v-4"/></g>';
+    fx='<g fill="#fff" opacity=".13"><ellipse cx="90" cy="150" rx="66" ry="7"/><ellipse cx="300" cy="156" rx="58" ry="6"/></g>';
+  }else if(K==="city"){
+    treeI='<g fill="'+dk("#9a8e6b")+'"><rect x="40" y="130" width="54" height="36"/><rect x="34" y="122" width="14" height="12"/><rect x="56" y="122" width="14" height="12"/><rect x="78" y="122" width="16" height="12"/>'
+      +'<rect x="236" y="138" width="46" height="28"/><rect x="230" y="130" width="12" height="10"/><rect x="252" y="130" width="12" height="10"/><rect x="274" y="130" width="12" height="10"/></g>'
+      +'<g fill="'+dk("#6e8a56")+'"><ellipse cx="160" cy="162" rx="13" ry="9"/><ellipse cx="330" cy="163" rx="11" ry="8"/></g>'
+      +'<g fill="'+dk("#7a6b4c")+'"><rect x="158.4" y="162" width="3" height="5"/><rect x="328.6" y="163" width="2.6" height="4"/></g>';
+    rockI='<g fill="'+dk("#a79872")+'"><rect x="110" y="176" width="40" height="20"/><rect x="292" y="180" width="34" height="16"/></g>';
+    grasI='<g stroke="'+dk("#6e8a56")+'" stroke-width="2.2" stroke-linecap="round"><path d="M22 204v-8M140 204v-6M258 204v-8M350 204v-5"/></g>';
+  }else if(K==="garden"){
+    treeI='<g><path d="M44 166v-20" stroke="'+dk("#8a6a44")+'" stroke-width="3.4" stroke-linecap="round"/><circle cx="44" cy="140" r="13" fill="'+dk("#67ab7c")+'"/>'
+      +'<path d="M206 166v-16" stroke="'+dk("#8a6a44")+'" stroke-width="3" stroke-linecap="round"/><circle cx="206" cy="145" r="11" fill="'+dk("#76b98a")+'"/>'
+      +'<path d="M332 166v-18" stroke="'+dk("#8a6a44")+'" stroke-width="3" stroke-linecap="round"/><circle cx="332" cy="143" r="12" fill="'+dk("#67ab7c")+'"/></g>'
+      +'<g fill="'+dk("#f2b6c8")+'"><circle cx="38" cy="134" r="2.4"/><circle cx="51" cy="144" r="2.2"/><circle cx="210" cy="140" r="2.2"/><circle cx="327" cy="137" r="2.4"/></g>';
+    rockI='<g fill="'+dk("#89c2d6")+'" opacity=".7"><ellipse cx="130" cy="192" rx="34" ry="5"/><ellipse cx="306" cy="196" rx="28" ry="4.4"/></g>';
+    grasI='<g stroke="'+dk("#4e8f58")+'" stroke-width="2.4" stroke-linecap="round"><path d="M18 204v-11M25 204v-8M120 204v-10M238 204v-11M334 204v-9"/></g>'
+      +'<g fill="'+dk("#f6cf6a")+'"><circle cx="64" cy="199" r="2.2"/><circle cx="188" cy="201" r="2"/><circle cx="296" cy="199" r="2.2"/></g>';
+  }else if(K==="lake"){
+    treeI='<g fill="'+dk("#6f9a6a")+'"><ellipse cx="54" cy="160" rx="16" ry="9"/><ellipse cx="214" cy="162" rx="13" ry="7"/><ellipse cx="336" cy="161" rx="14" ry="8"/></g>'
+      +'<g stroke="'+dk("#5c7f55")+'" stroke-width="2" stroke-linecap="round"><path d="M126 166v-14M131 166v-11M136 166v-13M290 166v-12M295 166v-9"/></g>';
+    rockI='<g fill="'+dk("#7fb6cc")+'" opacity=".8"><rect x="-10" y="176" width="420" height="20"/></g>'
+      +'<g stroke="#fff" stroke-width="1.8" stroke-linecap="round" opacity=".5"><path d="M30 184h26M96 189h22M210 183h24M300 188h20"/></g>'
+      +'<g fill="'+dk("#8a6a44")+'"><path d="M160 186h40l-6 7h-28z"/><rect x="178" y="170" width="2.6" height="16"/><path d="M181 170l14 10h-14z" fill="#fff" opacity=".85"/></g>';
+    grasI='<g stroke="'+dk("#4e8f58")+'" stroke-width="2.4" stroke-linecap="round"><path d="M20 204v-10M118 204v-8M240 204v-10M342 204v-7"/></g>';
   }else if(K==="thorn"){
     treeI='<g fill="none" stroke="'+dk("#2e2740")+'" stroke-width="3.4" stroke-linecap="round">'
       +'<path d="M40 166q18-34 40 0"/><path d="M190 166q16-30 36 0"/><path d="M312 166q15-28 34 0"/></g>'
@@ -1305,7 +1427,7 @@ function pctTxt(c){const p=c/N*100;return(p>0&&p<10?p.toFixed(1):Math.round(p))+
 let ch="0".repeat(N),lg={},notes={},reacts={},cheers={},who="",av=0,others={},loaded=false,dirty=false,saveTimer=null,built=false;
 let curDay=todayStr(),selDate=curDay,recDate=curDay;
 let vy=+curDay.slice(0,4),vm=+curDay.slice(5,7)-1;
-const chBtns=[],bookEls=[];
+const chBtns=[],bookEls=[],secEls=[];
 let bibleAnchor=-1,bibleAnchorT=0;
 
 // ---------- 기록 변경 ----------
@@ -1344,6 +1466,7 @@ function playReturn(snapSVG){
 function addRead(list,date){
   if(!list.length)return;
   const back=(date||todayStr())===todayStr()&&wasAsleepNow();
+  const bkWas=BOOKS.map((_,i)=>bookDone(ch,i));
   const snapSVG=back?(($("hero").querySelector(".bg")||{}).outerHTML||""):"";
   undoSnap=snap();
   const d=date||todayStr(),cur=lg[d]?lg[d].slice():[];
@@ -1353,13 +1476,27 @@ function addRead(list,date){
   });
   lg[d]=cur;others[who]=mine();render();save();
   const lvUp=checkLevelUp();
+  // 2막: 이번에 새로 끝낸 성경 한 권 (여러 권이면 앞의 것부터)
+  let bkDone=-1;
+  if(tierOf(powerOf(lg))>=ARMOR.length-1){
+    for(let i=0;i<BOOKS.length;i++)if(!bkWas[i]&&bookDone(ch,i)){bkDone=i;break}
+    if(bkDone>=0){
+      const k=secIdxOfBook(bkDone);
+      let all=true;for(let i=SEC[k].a;i<=SEC[k].b;i++)if(!bookDone(ch,i)){all=false;break}
+      if(all)pendingSec=k;
+    }
+  }
   if(back&&snapSVG){
     try{localStorage.setItem("bible_cel_"+who+"_"+todayStr(),"1")}catch(e){}
-    pendingLv=lvUp;playReturn(snapSVG);
+    pendingLv=lvUp;pendingBk=bkDone;playReturn(snapSVG);
   }
   else if(lvUp>=0){
     try{localStorage.setItem("bible_cel_"+who+"_"+todayStr(),"1")}catch(e){}
-    setTimeout(()=>openCel("level",lvUp),240);
+    pendingBk=bkDone;setTimeout(()=>openCel("level",lvUp),240);
+  }
+  else if(bkDone>=0){
+    try{localStorage.setItem("bible_cel_"+who+"_"+todayStr(),"1")}catch(e){}
+    setTimeout(()=>openCel("book",bkDone),240);
   }
   else if(d===todayStr())maybeCelebrate();
   toast(fmt(list)+" 기록했어요"+(d!==todayStr()?" ("+d.slice(5).replace("-","/")+")":""),true);
@@ -1407,7 +1544,8 @@ function renderHead(){
   const missed=missedOf(last,t);
   const asleep=!!who&&loaded&&missed>=1;
   const power=powerOf(lg), tier=tierOf(power);
-  const prog=0.08+0.92*Math.pow(Math.min(1,count(ch)/N),.55);
+  const prog=Math.max(0.08+0.92*Math.pow(Math.min(1,count(ch)/N),.55),
+                      (tierOf(powerOf(lg))>=ARMOR.length-1)?(0.08+0.92*booksDone(ch)/BOOKS.length):0);
   const sunday=d.getDay()===0;
   const wd2=weekDays(), weekDone=wd2.every(x=>lg[x]&&lg[x].length);
   const doneT=!!(lg[t]&&lg[t].length);
@@ -1424,25 +1562,35 @@ function renderHead(){
     const s1=document.createElement("span");
     s1.textContent=sunday?("🕊️ 주일 · 쉼과 예배의 날"+(asleep&&last?" · 💤 "+gap+"일 멈춤":" · 무장 +"+power))
       :asleep?("💤 "+(last?(missed+1)+"일째 멈춰 있어요":"아직 길을 나서지 않았어요"))
-      :("🛡️ 무장 +"+power+" · "+ARMOR[tier].l);
+      :(tier>=ARMOR.length-1
+        ?("📜 "+SEC[secOf(ch)].land+" · "+booksDone(ch)+"/"+BOOKS.length+"권")
+        :("🛡️ 무장 +"+power+" · "+ARMOR[tier].l));
     ab.appendChild(s1);
     if(!asleep&&lg[t]&&lg[t].length){const s2=document.createElement("span");s2.className="up";s2.textContent="오늘 +"+gainOf(lg[t].length);ab.appendChild(s2)}
     const nx=ARMOR[Math.min(tier+1,ARMOR.length-1)], cur=ARMOR[tier], full=tier>=ARMOR.length-1;
     $("gauge").classList.remove("hide");
-    $("gfill").style.width=(power/PMAX*100).toFixed(1)+"%";
+    const bd=booksDone(ch), nb=focusBookIdx(ch), sc=secOf(ch);
+    $("gfill").style.width=(full?bd/BOOKS.length*100:fillPctOf(power)).toFixed(1)+"%";
     $("gbar").classList.toggle("low",asleep);
+    $("gbar").classList.toggle("pil",full&&!asleep);
+    setTicks(full?SECTICK:EQTICK);
     $("gl1").innerHTML="";
-    const b1=document.createElement("b");b1.textContent="무장 "+power+" / "+PMAX;
-    const s3=document.createElement("span");s3.textContent=" · "+(tier?cur.l:"아직 무장 전");
+    const b1=document.createElement("b");
+    b1.textContent=full?("📜 "+bd+"/"+BOOKS.length+"권 · "+SEC[sc].nm)
+      :("장비 "+tier+"/"+(ARMOR.length-1)+" · "+(tier?cur.l:"아직 무장 전"));
+    const s3=document.createElement("span");
+    s3.textContent=full?"":(" · 무장 "+power);
     $("gl1").append(b1,s3);
     $("gl2").className=asleep?"dn":"";
-    $("gl2").textContent=full?"완전 무장 ✨":(asleep?"쉬는 날마다 −5":(nx.l+"까지 "+(nx.p-power)));
+    $("gl2").textContent=full?(bd>=BOOKS.length?"천성의 문 도착 ✨":(BOOKS[nb][0]+" 끝까지 "+bookLeft(ch,nb)+"장"))
+      :(asleep?"쉬는 날마다 −5":(nx.l+"까지 "+(nx.p-power)));
   }
-  const sig=(who||"-")+"|"+av+"|"+(night?"n":"d")+"|"+tier+"|"+(asleep?1:0)+"|"+(sunday?"s":"w")+"|"+prog.toFixed(3)+"|"+(loaded?1:0);
+  const hsec=(tier>=ARMOR.length-1)?secOf(ch):-1;
+  const sig=(who||"-")+"|"+av+"|"+(night?"n":"d")+"|"+tier+"|"+(asleep?1:0)+"|"+(sunday?"s":"w")+"|"+prog.toFixed(3)+"|"+(loaded?1:0)+"|"+hsec;
   if(sig!==heroSig){
     heroSig=sig;
     const old=$("hero").querySelector("svg.bg");if(old)old.remove();
-    $("hero").insertAdjacentHTML("afterbegin",heroSVG(who?av:0,who?COL[who]:"#8a6fa8",night,prog,asleep,tier,sunday));
+    $("hero").insertAdjacentHTML("afterbegin",heroSVG(who?av:0,who?COL[who]:"#8a6fa8",night,prog,asleep,tier,sunday,hsec));
   }
 }
 function renderNext(){
@@ -1543,6 +1691,14 @@ function renderTeam(t){
 function buildBooks(){
   const box=$("v1");
   BOOKS.forEach(([b,n],bi)=>{
+    const sk=SEC.findIndex(x=>x.a===bi);
+    if(sk>=0){
+      const h=document.createElement("div");h.className="sechd";
+      const h1=document.createElement("b");h1.textContent=SEC[sk].nm;
+      const h2=document.createElement("span");h2.textContent=SEC[sk].land;
+      const h3=document.createElement("i");
+      h.append(h1,h2,h3);box.appendChild(h);secEls.push({e:h3,k:sk});
+    }
     const det=document.createElement("details");
     const sm=document.createElement("summary");
     const t=document.createElement("span");t.textContent=b;
@@ -1601,6 +1757,11 @@ function renderBooks(){
   const other=who==="지수"?"현주":who==="현주"?"지수":null;
   const po=other&&others[other]?others[other]:null;
   const psig=other?other+":"+avOf(other):"";
+  secEls.forEach(o=>{
+    const S=SEC[o.k], d=secDone(ch,o.k);
+    o.e.textContent=d+" / "+(S.b-S.a+1)+"권";
+    o.e.classList.toggle("ok",d===S.b-S.a+1);
+  });
   bookEls.forEach((o,bi)=>{
     const d=count(ch,o.a,o.z);o.c.textContent=d+" / "+o.n;
     o.bok.classList.toggle("hide",d!==o.n);
@@ -1868,15 +2029,31 @@ function renderMe(){
   const last=ds.length?ds[ds.length-1]:null;
   const missed=missedOf(last,t), gap=last?Math.round((new Date(t)-new Date(last))/86400000):999;
   const asleep=missed>=1, doneToday=!!(lg[t]&&lg[t].length);
-  const r=RANK[tier];
-  $("metier").textContent=tier?ARMOR[tier].l:"무장 전";
+  const p2=full, psec=p2?secOf(ch):-1, pbd=booksDone(ch), pnb=focusBookIdx(ch);
+  const r=p2?SECROLE[psec]:RANK[tier];
+  $("metier").textContent=p2?(SEC[psec].nm+" · "+SEC[psec].land):(tier?ARMOR[tier].l:"무장 전");
   $("metier").className="mebadge"+(tier?"":" none");
   const never=!last;
   $("metitle").textContent=never?"길 앞에 선 사람":(asleep?"잠시 길에 앉은 "+r.t:r.t);
   $("medesc").textContent=never?"아직 첫 기록이 없어요. 창세기 1장, 딱 한 장이면 여정이 시작됩니다."
     :(asleep?"갑옷이 녹슬고 불화살이 그대로 꽂히고 있어요. 지금 한 장이면 다시 일어섭니다.":r.d);
-  $("mepb").style.width=(power/PMAX*100).toFixed(1)+"%";
-  $("mepow").textContent="무장 "+power+" / "+PMAX+(full?" · 완전 무장 ✨":" · "+nx.l+"까지 "+(nx.p-power));
+  $("mepb").style.width=(p2?pbd/BOOKS.length*100:fillPctOf(power)).toFixed(1)+"%";
+  $("mepb").classList.toggle("pil",p2);
+  const sm=$("secmap");
+  sm.classList.toggle("hide",!p2);
+  if(p2){
+    if(sm._n!==SEC.length){sm._n=SEC.length;sm.innerHTML=SEC.map(()=>'<div><b></b><u><i></i></u><s></s></div>').join("")}
+    [...sm.children].forEach((el,k)=>{
+      const S=SEC[k], tot=S.b-S.a+1, d=secDone(ch,k);
+      el.classList.toggle("on",k===psec);
+      el.querySelector("b").textContent=(k===psec?"▸ ":"")+S.nm;
+      el.querySelector("i").style.width=(d/tot*100).toFixed(1)+"%";
+      el.querySelector("s").textContent=d+" / "+tot+"권"+(d===tot?" ✓":"");
+    });
+  }
+  $("mepow").textContent=p2
+    ?("📜 "+pbd+"/"+BOOKS.length+"권"+(pbd>=BOOKS.length?" · 천성의 문 도착 ✨":" · 곧 완독 "+BOOKS[pnb][0]+" "+(BOOKS[pnb][1]-bookLeft(ch,pnb))+"/"+BOOKS[pnb][1]+"장"))
+    :("장비 "+tier+"/"+(ARMOR.length-1)+" · 무장 "+power+" · "+nx.l+"까지 "+(nx.p-power));
   const fg=$("mefig");fg.classList.toggle("rest",asleep);
   const sig=who+"|"+av+"|"+tier;
   if(fg._sig!==sig){fg._sig=sig;fg.innerHTML=meFigSVG(tier)}
@@ -2014,9 +2191,9 @@ function cardSVG(i,nm,tier,power,streak,pctS,chaps){
   +'<text x="360" y="842" text-anchor="middle" font-size="22" fill="#ffffff" opacity=".78">'+esc(l1)+'</text>'
   +(l2?'<text x="360" y="874" text-anchor="middle" font-size="22" fill="#ffffff" opacity=".78">'+esc(l2)+'</text>':'')
   +'<path d="M130 906h460" stroke="#ffffff" stroke-opacity=".18" stroke-width="1.6"/>'
-  +chip(180,"무장",power+" / "+PMAX)+chip(360,"연속",streak+"일")+chip(540,"읽은 분량",pctS)
+  +chip(180,(tier>=ARMOR.length-1?"완독":"무장"),(tier>=ARMOR.length-1?booksDone(ch)+" / "+BOOKS.length+"권":power+" · 장비 "+tier+"/6"))+chip(360,"연속",streak+"일")+chip(540,"읽은 분량",pctS)
   +'<rect x="130" y="1012" width="460" height="12" rx="6" fill="#ffffff" fill-opacity=".16"/>'
-  +'<rect x="130" y="1012" width="'+Math.max(10,Math.round(460*power/PMAX))+'" height="12" rx="6" fill="url(#cgb)"/>'
+  +'<rect x="130" y="1012" width="'+Math.max(10,Math.round(460*(tier>=ARMOR.length-1?count(ch)/N:fillPctOf(power)/100)))+'" height="12" rx="6" fill="url(#cgb)"/>'
   +'<text x="130" y="1068" font-size="21" font-weight="700" fill="#fff" opacity=".92">'+esc((FULL[nm]||nm)+" · "+chaps+"장")+'</text>'
   +'<text x="590" y="1068" text-anchor="end" font-size="19" fill="#fff" opacity=".55">'+esc(ds)+'</text>'
   +'<text x="360" y="86" text-anchor="middle" font-size="20" font-weight="700" fill="#fff" opacity=".5" letter-spacing="4">'+esc(C.n)+'</text>'
@@ -2248,6 +2425,41 @@ function trophySVG(){
   +'<g class="pc p2"><text x="2" y="40" font-size="20">🎉</text><text x="2" y="124" font-size="16">✨</text></g>'
   +'</svg>';
 }
+function gateIconSVG(){
+  return '<svg class="itm" viewBox="0 0 120 120">'+'<defs><radialGradient id="ivg" cx=".5" cy=".46" r=".52"><stop offset="0" stop-color="#fff3c9" stop-opacity=".95"/><stop offset="1" stop-color="#fff3c9" stop-opacity="0"/></radialGradient></defs>'
+  +'<circle cx="60" cy="60" r="52" fill="url(#ivg)"/><g class="itmF">'
+  +'<g fill="#f0cf7e" stroke="#c39a34" stroke-width="2.4" stroke-linejoin="round">'
+  +'<rect x="17" y="48" width="14" height="50" rx="2"/><rect x="89" y="48" width="14" height="50" rx="2"/>'
+  +'<path d="M13 48h22l-11-13zM87 48h22l-11-13z"/>'
+  +'<rect x="33" y="36" width="54" height="62" rx="3"/>'
+  +'<path d="M29 36h62l-31-17z"/></g>'
+  +'<path d="M45 98V68a15 15 0 0 1 30 0v30z" fill="#fffbe8"/>'
+  +'<g transform="translate(60,54)"><rect x="-2.6" y="-15" width="5.2" height="32" rx="2" fill="#e0b24a"/><rect x="-9" y="-7" width="18" height="5.2" rx="2" fill="#e0b24a"/></g>'
+  +'<path d="M11 98h98" stroke="#c39a34" stroke-width="3.2" stroke-linecap="round"/>'
+  +'</g></svg>';
+}
+// ---------- 2막 팝업용 두루마리 / 이정표 ----------
+function scrollSVG(nm){
+  const n=(nm||"").length, fs=n<=3?21:n<=4?18:n<=5?15.5:n<=6?13:11.2;
+  return '<svg class="itm" viewBox="0 0 120 120">'+'<defs><radialGradient id="ivg" cx=".5" cy=".46" r=".52"><stop offset="0" stop-color="#fff3c9" stop-opacity=".95"/><stop offset="1" stop-color="#fff3c9" stop-opacity="0"/></radialGradient></defs>'
+  +'<circle cx="60" cy="60" r="52" fill="url(#ivg)"/><g class="itmF">'
+  +'<rect x="26" y="28" width="68" height="64" rx="2" fill="#f7eed6" stroke="#c9a96a" stroke-width="2.4"/>'
+  +'<path d="M36 44h48M36 80h48" stroke="#d9c49a" stroke-width="2" stroke-linecap="round"/>'
+  +'<rect x="13" y="24" width="15" height="72" rx="7.5" fill="#e0b24a" stroke="#a37c20" stroke-width="2.4"/>'
+  +'<rect x="92" y="24" width="15" height="72" rx="7.5" fill="#c9a042" stroke="#a37c20" stroke-width="2.4"/>'
+  +'<text x="60" y="'+(60+fs*0.36).toFixed(1)+'" text-anchor="middle" font-size="'+fs+'" font-weight="800" fill="#5a4320">'+esc(nm)+'</text>'
+  +'</g></svg>';
+}
+function signSVG(nm){
+  const n=(nm||"").length, fs=n<=4?15:n<=6?12.6:n<=8?10.8:9.4;
+  return '<svg class="itm" viewBox="0 0 120 120">'+'<defs><radialGradient id="ivg" cx=".5" cy=".46" r=".52"><stop offset="0" stop-color="#fff3c9" stop-opacity=".95"/><stop offset="1" stop-color="#fff3c9" stop-opacity="0"/></radialGradient></defs>'
+  +'<circle cx="60" cy="60" r="52" fill="url(#ivg)"/><g class="itmF">'
+  +'<rect x="54" y="46" width="11" height="58" rx="3.5" fill="#8a5a33" stroke="#5e3b1e" stroke-width="2.4"/>'
+  +'<path d="M16 26h72l14 14-14 14H16z" fill="#d9b574" stroke="#5e3b1e" stroke-width="2.6" stroke-linejoin="round"/>'
+  +'<text x="53" y="45.5" text-anchor="middle" font-size="'+fs+'" font-weight="800" fill="#3f2a12">'+esc(nm)+'</text>'
+  +'<path d="M44 104h32" stroke="#5e3b1e" stroke-width="4" stroke-linecap="round"/>'
+  +'</g></svg>';
+}
 // ---------- 레벨업 팝업용 장비 아이콘 ----------
 function itemSVG(t){
   const S='stroke-linejoin="round" stroke-linecap="round"';
@@ -2323,21 +2535,30 @@ function confetti(){
   })();
 }
 function openCel(win,lvt){
-  const ret=win==="return", lvl=win==="level";
-  $("celface").innerHTML=lvl?"":faceSVG(av,TINT[who]||"#eee");
-  $("celface").style.display=lvl?"none":"";
-  $("celarm").className=lvl?"lvfig":"";
+  const ret=win==="return", lvl=win==="level", bk=win==="book", sc=win==="sec";
+  const big=lvl||bk||sc, last=sc&&lvt>=SEC.length-1;
+  $("celface").innerHTML=big?"":faceSVG(av,TINT[who]||"#eee");
+  $("celface").style.display=big?"none":"";
+  $("celarm").className=big?"lvfig":"";
   $("celarm").innerHTML=lvl?itemSVG(lvt)
+    :bk?scrollSVG(BOOKS[lvt][0])
+    :sc?(last?gateIconSVG():signSVG(SEC[lvt+1].land))
     :(win===true)?trophySVG():armorSVG();
-  $("celbdg").classList.toggle("hide",!lvl);
+  $("celbdg").classList.toggle("hide",!big);
   if(lvl)$("celbdg").textContent="LEVEL "+(lvt+1)+" · "+ARMOR[lvt].l;
+  else if(bk)$("celbdg").textContent=booksDone(ch)+"/"+BOOKS.length+"권 · "+SEC[secIdxOfBook(lvt)].nm;
+  else if(sc)$("celbdg").textContent=(lvt>=SEC.length-1)?"성경 66권 완주 · 천성의 문":("구간 완주 · "+SEC[lvt].nm);
   const st={};powerOf(lg,st);
   const gn=gainOf((lg[todayStr()]||[]).length);
   const LU=LVUP[lvt]||LVUP[1];
   $("celttl").innerHTML=lvl?("레벨 업!<br>"+LU.t)
+    :bk?(esc(BOOKS[lvt][0])+" "+BOOKS[lvt][1]+"장<br>완독했습니다")
+    :sc?(last?"성경 66권<br>완주하셨습니다!":(esc(SEC[lvt].nm)+" 완주!<br>"+esc(SEC[lvt+1].land)+"으로"))
     :ret?"악한 자들이 흩어졌습니다!<br>다시 길 위에 섰어요"
     :(win===true)?"한 주 동안<br>말씀으로 사셨습니다":"오늘 묵상도 완료하셨네요!<br>당신은 승리하셨습니다.";
   $("celsub").textContent=lvl?LU.d
+    :bk?BKLINE[lvt]
+    :sc?SEC[lvt].done
     :ret?("쉬는 동안 잃은 무장 중 "+st.bonus+"을 되찾고, 오늘 읽은 "+(lg[todayStr()]||[]).length+"장으로 "+gn+"을 더 얻었어요.")
     :(win===true)?"월요일부터 토요일까지 6일, 완주하셨어요. 🏆"
     :("오늘 "+(lg[todayStr()]||[]).length+"장, 생명의 말씀으로 "+gn+"만큼 무장되었습니다.");
@@ -2346,7 +2567,9 @@ function openCel(win,lvt){
 }
 function closeCel(){
   $("cel").classList.add("hide");document.body.style.overflow="";cancelAnimationFrame(celRaf);celRaf=0;clearCel();
-  if(pendingLv>=0){const t=pendingLv;pendingLv=-1;setTimeout(()=>openCel("level",t),280)}
+  if(pendingLv>=0){const t=pendingLv;pendingLv=-1;setTimeout(()=>openCel("level",t),280);return}
+  if(pendingBk>=0){const t=pendingBk;pendingBk=-1;setTimeout(()=>openCel("book",t),280);return}
+  if(pendingSec>=0){const t=pendingSec;pendingSec=-1;setTimeout(()=>openCel("sec",t),280)}
 }
 $("celok").onclick=closeCel;
 $("cel").onclick=e=>{if(e.target.id==="cel")closeCel()};
