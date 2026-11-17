@@ -38,7 +38,7 @@ button:disabled{opacity:.45;cursor:default}
 .cheerin .note{display:block;margin-top:2px}
 @keyframes chpop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
 @keyframes chbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-.cheerbox{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
+.cheerbox{display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}
 #cheer.on{background:var(--acbg);border-color:var(--ac);color:var(--ac);font-weight:700}
 .sw{display:flex;flex-direction:column;align-items:center;width:84px;font-size:12px;text-align:center}
 .sw .nm{margin-top:6px;font-weight:600}
@@ -93,6 +93,10 @@ details{border-bottom:1px solid var(--bd);padding:4px 0}
 summary{cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 2px;list-style:none;min-height:44px}
 summary::-webkit-details-marker{display:none}
 summary .c{color:var(--mut);font-size:12px;white-space:nowrap}
+summary .rt{display:flex;align-items:center;gap:7px;white-space:nowrap}
+.bdg{font-size:11px;font-weight:700;border-radius:99px;padding:3px 9px;line-height:1.5;white-space:nowrap;color:#fff}
+.bdg.ok{background:#4f9e58}
+.bdg.rc{background:#4a7fd4}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:6px;margin:8px 0}
 .grid button{padding:0;min-height:44px;font-size:13px;background:var(--card);color:var(--tx);border:1px solid var(--bd)}
 .grid button.done{background:var(--ac);color:#fff;border-color:var(--ac)}
@@ -139,7 +143,10 @@ input[type=search]{font:inherit;width:100%;padding:11px;border-radius:10px;borde
 .avg svg{width:52px;height:52px}
 .ipick{display:flex;gap:10px}.ipick button{flex:1;flex-direction:column;align-items:center;gap:8px;padding:14px;font-size:17px;display:flex}
 .ipick svg{width:56px;height:56px}
-.hero{position:relative;border-radius:16px;overflow:hidden;margin:0 0 16px;min-height:360px;display:flex;flex-direction:column;justify-content:flex-start;padding:16px 18px 18px}
+.herowrap{border-radius:18px;overflow:hidden;margin:0 0 16px;background:var(--card);border:1px solid var(--bd)}
+.htrack{padding:16px 18px 14px}
+.htrack .lane{margin:0}
+.hero{position:relative;overflow:hidden;min-height:360px;display:flex;flex-direction:column;justify-content:flex-start;padding:16px 18px 18px}
 .hero .bg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .hero .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,20,14,.82) 0%,rgba(28,20,14,.6) 34%,rgba(28,20,14,.08) 64%,rgba(28,20,14,.18) 100%)}
 .hero .in{position:relative;width:100%}
@@ -149,6 +156,7 @@ input[type=search]{font:inherit;width:100%;padding:11px;border-radius:10px;borde
 .hero .dt{color:#f3e7d6;font-size:13px;margin:0}
 @media (max-width:360px){.hero h1{font-size:22px}}
 @media (max-width:380px){.hero{min-height:330px}}
+@media (max-width:380px){.htrack{padding:14px 12px 12px}.htrack .trk{margin:6px 18px 0}}
 .hero .glow{transform-box:fill-box;transform-origin:50% 50%;animation:glowp 5.5s ease-in-out infinite alternate}
 @keyframes glowp{from{opacity:.72;transform:scale(.94)}to{opacity:1;transform:scale(1.06)}}
 .hero .sun{transform-box:fill-box;transform-origin:50% 50%;animation:sunp 7s ease-in-out infinite alternate}
@@ -169,7 +177,9 @@ input[type=search]{font:inherit;width:100%;padding:11px;border-radius:10px;borde
 .pf svg{width:100%;height:100%}
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px)}
 .tabbar button{flex:1;background:transparent;border:none;border-radius:0;color:var(--mut);min-height:58px;padding:7px 2px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px}
-.tabbar button .ic{font-size:19px;line-height:1}
+.tabbar button .ic{line-height:0}
+.tabbar button .ic svg{width:25px;height:25px;display:block;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tabbar button.on .ic svg{stroke-width:2.3}
 .tabbar button.on{color:var(--ac);font-weight:700}
 .sbar{word-break:break-all;position:fixed;left:0;right:0;bottom:calc(59px + env(safe-area-inset-bottom,0px));z-index:39;background:var(--card);border-top:1px solid var(--bd);padding:8px 16px;display:flex;align-items:center;gap:10px;justify-content:center}
 .ph{margin:4px 0 14px}
@@ -378,6 +388,7 @@ textarea{font:inherit;width:100%;padding:11px;border-radius:10px;border:1px soli
 </div>
 <main>
   <section id="pg-home">
+    <section class="herowrap">
     <header class="hero" id="hero">
       <div class="scrim"></div>
       <div class="in">
@@ -391,6 +402,8 @@ textarea{font:inherit;width:100%;padding:11px;border-radius:10px;border:1px soli
         <div class="gbar" id="gbar"><i id="gfill"></i><div class="gticks"><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
       </div>
     </header>
+      <div class="htrack hide" id="mylane"></div>
+    </section>
 
     <div class="card cheerin hide" id="cheerin">
       <span class="ci" id="ciav"></span>
@@ -413,10 +426,10 @@ textarea{font:inherit;width:100%;padding:11px;border-radius:10px;border:1px soli
     </div>
 
     <div class="card">
-      <h2>🏃 이번 주 함께 읽기 <span class="note" id="wk"></span></h2>
+      <h2 id="teamh">🏃 이번 주 함께 읽기 <span class="note" id="wk"></span></h2>
       <div id="team"></div>
       <div class="cheerbox"><button class="ghost small" id="cheer">💪 응원 보내기</button><span class="note" id="cheernote"></span></div>
-      <p class="note" style="margin:0" id="verse">푯대를 향하여 그리스도 예수 안에서 하나님이 위에서 부르신 부름의 상을 위하여 달려가노라</p>
+      <p class="note" style="margin:14px 0 0" id="verse">푯대를 향하여 그리스도 예수 안에서 하나님이 위에서 부르신 부름의 상을 위하여 달려가노라</p>
     </div>
   </section>
 
@@ -482,10 +495,10 @@ textarea{font:inherit;width:100%;padding:11px;border-radius:10px;border:1px soli
 </main>
 <div class="sbar hide" id="sbar"><p class="sv" id="status" style="margin:0"></p><button class="plain small hide" id="retry">다시 불러오기</button></div>
 <nav class="tabbar">
-  <button data-pg="home" class="on"><span class="ic">🏠</span>홈</button>
-  <button data-pg="bible"><span class="ic">📖</span>성경</button>
-  <button data-pg="log"><span class="ic">🗓️</span>기록</button>
-  <button data-pg="me"><span class="ic">🙂</span>내 정보</button>
+  <button data-pg="home" class="on"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 10.6 12 4l8 6.6V18.9a1.7 1.7 0 0 1-1.7 1.7H5.7A1.7 1.7 0 0 1 4 18.9z"/><path d="M9.8 20.6v-4.7a2.2 2.2 0 0 1 4.4 0v4.7"/></svg></span>홈</button>
+  <button data-pg="bible"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 7.3C10.3 6 7.9 5.5 4.7 5.7a.9.9 0 0 0-.9.9v9.9c0 .5.4.9 1 .9 3-.2 5.3.3 7.2 1.5 1.9-1.2 4.2-1.7 7.2-1.5.6 0 1-.4 1-.9V6.6a.9.9 0 0 0-.9-.9c-3.2-.2-5.6.3-7.3 1.6Z"/><path d="M12 7.5v11.4"/><path d="M6.9 9.6h2.7M6.9 12.4h2.7M14.4 9.6h2.7M14.4 12.4h2.7"/></svg></span>성경</button>
+  <button data-pg="log"><span class="ic"><svg viewBox="0 0 24 24"><rect x="3.7" y="5.7" width="16.6" height="14.6" rx="2.6"/><path d="M8.1 3.5v3.4M15.9 3.5v3.4"/><path d="M8.7 13.6l2.4 2.4 4.3-4.6"/></svg></span>기록</button>
+  <button data-pg="me"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.3" r="3.7"/><path d="M5.5 20.3a6.5 6.5 0 0 1 13 0"/></svg></span>내 정보</button>
 </nav>
 
 <div id="intro" class="mback hide" style="align-items:center">
@@ -1239,29 +1252,33 @@ function weekDays(){
   const a=[];for(let i=0;i<6;i++){a.push(dkey(d.getFullYear(),d.getMonth(),d.getDate()));d.setDate(d.getDate()+1)}
   return a;
 }
-function buildLane(n){
+function buildLane(n,host){
   const lane=document.createElement("div");lane.className="lane";
   lane.innerHTML='<div class="lh"><span><b></b><span class="t hide">오늘 읽음</span></span><span class="note rt"></span></div><div class="trk"><div class="ln"></div><div class="fl"></div><i class="dot" style="left:0%"></i><i class="dot" style="left:20%"></i><i class="dot" style="left:40%"></i><i class="dot" style="left:60%"></i><i class="dot" style="left:80%"></i><i class="dot" style="left:100%"></i>'+CROSS+'<div class="av"></div></div><div class="dys"></div><div class="note sm" style="margin-top:4px"></div>';
-  $("team").appendChild(lane);
+  (host||$("team")).appendChild(lane);
   return LANE[n]={lane,avi:-1,slp:null,hint:null,dots:lane.querySelectorAll(".dot"),b:lane.querySelector("b"),t:lane.querySelector(".t"),rt:lane.querySelector(".rt"),fl:lane.querySelector(".fl"),av:lane.querySelector(".av"),dys:lane.querySelector(".dys"),sm:lane.querySelector(".sm")};
 }
 function renderTeam(t){
   const wd=weekDays(),LB=["월","화","수","목","금","토"];
   const ti=wd.indexOf(t)<0?5:wd.indexOf(t);
   const ord=who?[who].concat(NAMES.filter(n=>n!==who)):NAMES.slice();
+  const oth=who?NAMES.filter(n=>n!==who)[0]:null;
+  $("mylane").classList.toggle("hide",!who);
+  $("teamh").innerHTML=(oth?"🏃 "+(FULL[oth]||oth)+"님의 이번 주":"🏃 이번 주 함께 읽기")+' <span class="note" id="wk"></span>';
   $("wk").textContent=" "+wd[0].slice(5).replace("-","/")+" ~ "+wd[5].slice(5).replace("-","/");
   ord.forEach(n=>{
     const o=others[n],l=(o&&o.lg)||{};
     let days=0,chs=0,li=-1;
     wd.forEach((k,i)=>{if(l[k]){days++;chs+=l[k].length;li=i}});
-    const e=LANE[n]||buildLane(n);const ai=avOf(n);
+    const mine=n===who, host=mine?$("mylane"):$("team");
+    const e=LANE[n]||buildLane(n,host);const ai=avOf(n);
     const all=(o&&o.lg)?Object.keys(o.lg).filter(d=>o.lg[d]&&o.lg[d].length).sort():[];
     const last=all.length?all[all.length-1]:null;
     const mss=missedOf(last,t);
     const asleep=mss>=1;
     if(e.avi!==ai||e.slp!==asleep){e.avi=ai;e.slp=asleep;e.av.innerHTML=asleep?sleepSVG(ai,COL[n]):runSVG(ai,COL[n])}
-    e.av.title=asleep?(last?(gap+"일째 기록이 없어요"):"아직 기록이 없어요"):"";
-    e.b.textContent=n+(n===who?" (나)":"");e.b.style.color=COL[n];
+    e.av.title=asleep?(last?((mss+1)+"일째 기록이 없어요"):"아직 기록이 없어요"):"";
+    e.b.textContent=mine?"이번 주 나의 걸음":(who?"":(FULL[n]||n)+"님");e.b.style.color=COL[n];
     e.t.classList.toggle("hide",!l[t]);
     e.rt.textContent=days+"/6일 · 이번 주 "+chs+"장"+(days===6?" 🏆 완주!":"");
     e.fl.style.width=(Math.max(li,0)/5*100)+"%";e.fl.style.background=COL[n];
@@ -1301,7 +1318,7 @@ function renderTeam(t){
     wd.forEach((k,i)=>{const sp=document.createElement("span");const rd=!!l[k];
       sp.textContent=LB[i];sp.className=(rd?"rd ":"")+(k===t?"td ":"")+(!rd&&k<t?"mi":"");
       if(rd)sp.style.color=COL[n];sp.style.left=(i/5*100)+"%";e.dys.appendChild(sp)});
-    $("team").appendChild(e.lane);
+    host.appendChild(e.lane);
     e.sm.textContent=o&&o.ch?((asleep?(last?"💤 "+(mss+1)+"일째 쉬는 중 · ":"💤 아직 시작 전 · "):"")+"전체 "+pctTxt(count(o.ch))+" · "+pos(o.ch)):"아직 접속 전";
   });
   const tg=weekDays().filter(d=>NAMES.every(n=>others[n]&&others[n].lg&&others[n].lg[d])).length;
@@ -1315,7 +1332,9 @@ function buildBooks(){
     const t=document.createElement("span");t.textContent=b;
     const c=document.createElement("span");c.className="c";
     const pf=document.createElement("span");pf.className="pf hide";
-    const rt=document.createElement("span");rt.style.whiteSpace="nowrap";rt.append(pf,c);
+    const bok=document.createElement("span");bok.className="bdg ok hide";bok.textContent="완료 (1회차)";
+    const brc=document.createElement("span");brc.className="bdg rc hide";brc.textContent="최근기록";
+    const rt=document.createElement("span");rt.className="rt";rt.append(pf,bok,brc,c);
     sm.append(t,rt);det.appendChild(sm);
     const g=document.createElement("div");g.className="grid";
     for(let i=0;i<n;i++){
@@ -1348,18 +1367,28 @@ function buildBooks(){
       armConfirm(del,"한 번 더 누르면 "+r.length+"장 해제",()=>removeRead(r));
     };
     bar.append(all,del);det.appendChild(bar);
-    box.appendChild(det);bookEls.push({c,pf,all,del,a:START[bi],z:START[bi]+n-1,n});
+    box.appendChild(det);bookEls.push({c,pf,bok,brc,all,del,a:START[bi],z:START[bi]+n-1,n});
   });
 }
+// 달력 기준 가장 최근 기록이 속한 책
+function lastBookIdx(){
+  const ds=Object.keys(lg).filter(d=>lg[d]&&lg[d].length).sort();
+  if(!ds.length)return -1;
+  const mx=Math.max.apply(null,lg[ds[ds.length-1]]);
+  for(let i=BOOKS.length-1;i>=0;i--)if(mx>=START[i])return i;
+  return -1;
+}
 function renderBooks(){
-  const k=nextCh();
+  const k=nextCh(),lb=lastBookIdx();
   for(let i=0;i<N;i++){chBtns[i].className=(ch[i]==="1"?"done":"")+(i===k?" nx":"");chBtns[i].setAttribute("aria-pressed",ch[i]==="1");chBtns[i].textContent=ch[i]==="1"?(CH[i][1]+"✓"):CH[i][1]}
   if(bibleAnchor>=0&&Date.now()-bibleAnchorT>20000)bibleAnchor=-1;
   const other=who==="지수"?"현주":who==="현주"?"지수":null;
   const po=other&&others[other]?others[other]:null;
   const psig=other?other+":"+avOf(other):"";
-  bookEls.forEach(o=>{
+  bookEls.forEach((o,bi)=>{
     const d=count(ch,o.a,o.z);o.c.textContent=d+" / "+o.n;
+    o.bok.classList.toggle("hide",d!==o.n);
+    o.brc.classList.toggle("hide",bi!==lb);
     o.all.textContent="안 읽은 장 모두 기록";o.all.disabled=d===o.n;
     o.del.classList.toggle("hide",!d);
     const done=!!(po&&po.ch&&count(po.ch,o.a,o.z)===o.n);
